@@ -1,12 +1,13 @@
 // src/api/axios.js
 import axios from 'axios';
 
-// 1. Establish the clean base URL string
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// 1. Establish the clean server root (no trailing slash)
+const SERVER_ROOT = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-// 2. Create a central instance of Axios pointing to your Node server
+// 2. Create a central instance of Axios pointing to your Node server API
 export const API = axios.create({ 
-  baseURL: BASE_URL,
+  // We append /api here so all your components can just ask for '/courses'
+  baseURL: `${SERVER_ROOT}/api`, 
   headers: {
     'Content-Type': 'application/json',
   },
@@ -16,7 +17,8 @@ export const API = axios.create({
 export const resolveAsset = (path) => {
   if (!path) return '';
   if (/^https?:\/\//i.test(path)) return path;
-  return `${BASE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
+  // Assets like profile pictures usually live at /uploads, not /api/uploads
+  return `${SERVER_ROOT}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
 // 4. The Interceptor: Runs automatically before every request to attach tokens

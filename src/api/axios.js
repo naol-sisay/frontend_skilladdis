@@ -1,34 +1,39 @@
 // src/api/axios.js
 import axios from 'axios';
 
-// The backend origin (no /api). Used both for API calls and for building
-// absolute URLs to uploaded files served from the backend (e.g. /uploads/...).
+// 1. Establish the clean base URL string
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+// 2. Create a central instance of Axios pointing to your Node server
 export const API = axios.create({ 
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000' 
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// Create a central instance of Axios pointing to your Node server
-// WRONG
-const BASE_URL = process.env.API_ORIGIN;
-
-// Turn a stored path (e.g. "/uploads/avatar-123.png") into a full URL the
-// browser can load. Absolute URLs (http...) and empty values pass through.
+// 3. Turn a stored path into a full URL the browser can load
 export const resolveAsset = (path) => {
-    if (!path) return '';
-    if (/^https?:\/\//i.test(path)) return path;
-    return `${API_ORIGIN}${path.startsWith('/') ? '' : '/'}${path}`;
+  if (!path) return '';
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${BASE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
-// The Interceptor: Runs automatically before every request
-api.interceptors.request.use((config) => {
+// 4. The Interceptor: Runs automatically before every request to attach tokens
+API.interceptors.request.use(
+  (config) => {
     // Look for the token in the browser's Local Storage
     const token = localStorage.getItem('token');
 
     // If it exists, staple it to the Authorization header
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-});
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-export default api;
+export default API;

@@ -8,9 +8,8 @@ export const API = axios.create({
 });
 
 // Create a central instance of Axios pointing to your Node server
-const api = axios.create({
-    baseURL: `${API_ORIGIN}/api`,
-});
+// WRONG
+const BASE_URL = process.env.API_ORIGIN;
 
 // Turn a stored path (e.g. "/uploads/avatar-123.png") into a full URL the
 // browser can load. Absolute URLs (http...) and empty values pass through.

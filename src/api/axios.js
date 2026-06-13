@@ -3,7 +3,9 @@ import axios from 'axios';
 
 // The backend origin (no /api). Used both for API calls and for building
 // absolute URLs to uploaded files served from the backend (e.g. /uploads/...).
-export const API_ORIGIN = 'http://localhost:5000';
+export const API = axios.create({ 
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000' 
+});
 
 // Create a central instance of Axios pointing to your Node server
 const api = axios.create({

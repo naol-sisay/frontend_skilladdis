@@ -4,7 +4,7 @@ import api from "../api/axios";
 
 const FALLBACK = "https://placehold.co/600x400/1E293B/FFF?text=SkillAddis";
 
-// Read the signed-in role from the JWT (same approach as AppShell/Dashboard).
+// Read the signed-in role from the JWT securely
 const getRole = () => {
   const token = localStorage.getItem("token");
   if (!token) return null;
@@ -15,27 +15,37 @@ const getRole = () => {
   }
 };
 
-// Shared course card used by the catalog and the landing page so the
-// course presentation stays identical everywhere.
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
   const role = getRole();
   const isStudent = role === "STUDENT";
+  const isAuthenticated = role !== null;
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const openPlayer = () => navigate(`/player/${course.course_id}`);
 
-  const handleEnroll = async () => {
-    // Instructors / guests just preview the course.
-    if (!isStudent) return openPlayer();
+  const handleAction = async () => {
+    // 1. Unauthenticated Guest: Force login
+    if (!isAuthenticated) {
+      return navigate("/login", { state: { message: "Please log in to enroll." } });
+    }
+
+    // 2. Instructor / Admin: Bypass enrollment, allow preview
+    if (!isStudent) {
+      return openPlayer();
+    }
+
+    // 3. Student: Execute strict enrollment pipeline
     setLoading(true);
     setError("");
+    
     try {
       await api.post("/student/enroll", { course_id: course.course_id });
       openPlayer();
     } catch (err) {
-      // 409 = already enrolled — that's fine, just open it.
+      // 409 = Already enrolled. Seamlessly route to player.
       if (err?.response?.status === 409) {
         openPlayer();
       } else {
@@ -43,6 +53,14 @@ const CourseCard = ({ course }) => {
         setLoading(false);
       }
     }
+  };
+
+  // Determine button text based on exact state
+  const getButtonText = () => {
+    if (!isAuthenticated) return "Log in to Enroll";
+    if (!isStudent) return "View Course";
+    if (loading) return "Enrolling…";
+    return "Enroll Now";
   };
 
   return (
@@ -84,11 +102,11 @@ const CourseCard = ({ course }) => {
         {error && <p className="text-sm text-red-600 font-semibold mb-2">{error}</p>}
 
         <button
-          onClick={handleEnroll}
+          onClick={handleAction}
           disabled={loading}
           className="w-full py-3 bg-accent text-white font-bold rounded-xl shadow-sm glow-accent hover:bg-accent-strong active:scale-[0.99] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          {!isStudent ? "View Course" : loading ? "Enrolling…" : "Enroll"}
+          {getButtonText()}
         </button>
       </div>
     </div>

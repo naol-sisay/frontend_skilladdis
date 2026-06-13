@@ -40,7 +40,7 @@ const CourseCatalog = () => {
     <div className="max-w-7xl mx-auto w-full px-6 py-12 mb-10">
       <div className="text-center mb-8">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-brand tracking-tight">
-          Browse Courses
+          Explore Courses
         </h1>
         <p className="mt-3 text-lg text-slate-500">
           Find your next skill and start learning today.

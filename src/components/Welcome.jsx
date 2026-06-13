@@ -45,7 +45,7 @@ const Welcome = () => {
             <>
               <button
                 onClick={() => navigate("/dashboard")}
-                className="inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-900/20 hover:bg-accent-strong hover:-translate-y-0.5 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl font-bold text-lg glow-accent-lg hover:bg-accent-strong hover:-translate-y-0.5 transition-all"
               >
                 Go to Dashboard
               </button>
@@ -53,14 +53,14 @@ const Welcome = () => {
                 onClick={() => navigate("/catalog")}
                 className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-brand px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 transition-all"
               >
-                Browse Catalog
+                Explore
               </button>
             </>
           ) : (
             <>
               <button
                 onClick={() => navigate("/register")}
-                className="inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-900/20 hover:bg-accent-strong hover:-translate-y-0.5 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-accent text-white px-8 py-4 rounded-xl font-bold text-lg glow-accent-lg hover:bg-accent-strong hover:-translate-y-0.5 transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v6m3-3h-6M9 12a4 4 0 100-8 4 4 0 000 8zm0 0c-2.67 0-8 1.34-8 4v2h10" />

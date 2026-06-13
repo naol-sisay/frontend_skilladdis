@@ -164,20 +164,28 @@ const CoursePlayer = () => {
               </p>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-brand mb-6">{activeMaterial.title}</h1>
 
-              <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
-                {activeMaterial.material_type === "video" ? (
+              {activeMaterial.material_type === "video" ? (
+                <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
                   <iframe
                     className="w-full aspect-video rounded-xl"
                     src={getEmbedUrl(activeMaterial.content)}
                     title={activeMaterial.title}
                     allowFullScreen
                   />
-                ) : (
-                  <div className="prose max-w-none text-slate-700 text-base sm:text-lg leading-relaxed whitespace-pre-wrap break-words">
-                    {activeMaterial.content}
+                </div>
+              ) : (
+                <article className="bg-white px-6 py-8 sm:px-12 sm:py-12 rounded-2xl shadow-sm border border-gray-100">
+                  <div className="max-w-[68ch] mx-auto text-slate-700 text-[17px] sm:text-lg leading-8 break-words">
+                    {String(activeMaterial.content || "")
+                      .split(/\n{2,}/)
+                      .map((para, i) => (
+                        <p key={i} className="mb-6 last:mb-0 whitespace-pre-wrap">
+                          {para}
+                        </p>
+                      ))}
                   </div>
-                )}
-              </div>
+                </article>
+              )}
 
               <div className="mt-8 flex justify-between items-center border-t border-gray-200 pt-6">
                 <button

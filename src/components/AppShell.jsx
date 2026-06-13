@@ -23,7 +23,6 @@ const AppShell = () => {
   const location = useLocation();
   const [auth, setAuth] = useState({ name: "", role: null, authed: false });
   const [photo, setPhoto] = useState("");
-  const [drawer, setDrawer] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -35,7 +34,6 @@ const AppShell = () => {
         setAuth({ name: "", role: null, authed: false });
       }
     }
-    setDrawer(false);
   }, [location]);
 
   useEffect(() => {
@@ -63,12 +61,12 @@ const AppShell = () => {
         { to: "/dashboard", label: "Dashboard", d: I.dashboard },
         { to: "/create-course", label: "Create", d: I.create },
         { to: "/instructor/courses", label: "My Courses", d: I.courses },
-        { to: "/catalog", label: "Catalog", d: I.catalog },
+        { to: "/catalog", label: "Explore", d: I.catalog },
       ]
     : [
         { to: "/dashboard", label: "Dashboard", d: I.dashboard },
-        { to: "/catalog", label: "Catalog", d: I.catalog },
-        { to: "/my-courses", label: "Courses", d: I.courses },
+        { to: "/catalog", label: "Explore", d: I.catalog },
+        { to: "/my-courses", label: "My Courses", d: I.courses },
       ];
 
   const linkClass = ({ isActive }) =>
@@ -133,33 +131,57 @@ const AppShell = () => {
         {SidebarInner}
       </aside>
 
-      {/* Mobile drawer */}
-      <div className={`lg:hidden fixed inset-0 z-50 transition-opacity duration-300 ${drawer ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-        <div className="absolute inset-0 bg-black/40" onClick={() => setDrawer(false)} />
-        <aside className={`absolute inset-y-0 left-0 w-72 max-w-[82%] bg-white shadow-2xl transition-transform duration-300 ${drawer ? "translate-x-0" : "-translate-x-full"}`}>
-          {SidebarInner}
-        </aside>
-      </div>
-
       {/* Main */}
       <div className="flex-1 min-w-0 flex flex-col">
-        {/* Mobile top bar */}
-        <header className="lg:hidden sticky top-0 z-30 bg-white border-b border-slate-100 flex items-center gap-3 px-4 h-14">
-          <button onClick={() => setDrawer(true)} className="p-1.5 -ml-1.5 text-brand" aria-label="Open menu">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+        {/* Mobile top bar — brand only, no hamburger */}
+        <header className="lg:hidden sticky top-0 z-30 bg-white border-b border-slate-100 flex items-center justify-between px-4 h-14">
           <Link to="/dashboard" className="flex items-center gap-2">
             <CapMark className="w-6 h-6 text-accent" />
             <span className="font-extrabold text-brand">SkillAddis</span>
           </Link>
+          {auth.authed ? (
+            <Link to="/profile" aria-label="Profile">
+              <Avatar name={auth.name} src={photo} size={32} />
+            </Link>
+          ) : (
+            <Link to="/login" className="text-sm font-bold text-accent">Log in</Link>
+          )}
         </header>
 
-        <main key={location.pathname} className="page-enter flex-1">
+        <main key={location.pathname} className="page-enter flex-1 pb-24 lg:pb-0">
           <Outlet />
         </main>
       </div>
+
+      {/* Mobile bottom tab bar */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-slate-100 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-stretch justify-around px-2 pt-1.5 pb-1">
+          {links.map((l) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              className={({ isActive }) =>
+                `flex flex-col items-center justify-center gap-1 flex-1 py-1.5 rounded-2xl text-[11px] font-bold transition-colors ${
+                  isActive ? "text-accent" : "text-slate-400 hover:text-brand"
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <span
+                    className={`flex items-center justify-center w-10 h-9 rounded-2xl transition-all ${
+                      isActive ? "bg-accent-soft glow-soft" : ""
+                    }`}
+                  >
+                    <NavIcon d={l.d} />
+                  </span>
+                  <span>{l.label}</span>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 };

@@ -43,7 +43,7 @@ const Btn = ({ children, onClick, variant = "primary" }) => (
     onClick={onClick}
     className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all active:scale-[0.99] ${
       variant === "primary"
-        ? "bg-accent text-white shadow-md shadow-blue-900/10 hover:bg-accent-strong"
+        ? "bg-accent text-white glow-accent hover:bg-accent-strong"
         : "bg-white border border-slate-200 text-brand hover:bg-slate-50"
     }`}
   >
@@ -56,11 +56,9 @@ const Btn = ({ children, onClick, variant = "primary" }) => (
 const StudentDashboard = ({ name, stats }) => {
   const navigate = useNavigate();
   const [enrolled, setEnrolled] = useState([]);
-  const [catalog, setCatalog] = useState([]);
 
   useEffect(() => {
     api.get("/student/my-courses").then((r) => setEnrolled(r.data.my_courses || [])).catch(() => {});
-    api.get("/courses").then((r) => setCatalog(r.data.courses || [])).catch(() => {});
   }, []);
 
   const activeCount = enrolled.filter((e) => (e.status || "").toLowerCase() === "active").length;
@@ -79,7 +77,7 @@ const StudentDashboard = ({ name, stats }) => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" /></svg>
               Enrolled courses
             </Btn>
-            <Btn variant="ghost" onClick={() => navigate("/catalog")}>Browse catalog</Btn>
+            <Btn variant="ghost" onClick={() => navigate("/catalog")}>Explore courses</Btn>
           </div>
         </div>
 
@@ -98,50 +96,35 @@ const StudentDashboard = ({ name, stats }) => {
       </div>
 
       {/* stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
         <StatCard label="Enrolled" value={enrolled.length} icon="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" />
         <StatCard label="Active" value={activeCount} icon="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        <StatCard label="Catalog" value={catalog.length} icon="M12 2a10 10 0 100 20 10 10 0 000-20zm3.5 6.5l-2 5-5 2 2-5 5-2z" />
         <StatCard label="Completed" value={stats.certificates_earned ?? 0} icon="M3 17l6-6 4 4 8-8" />
       </div>
 
       {/* lists */}
-      <div className="grid lg:grid-cols-2 gap-8">
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-extrabold text-brand">Enrolled Courses</h2>
-            <button onClick={() => navigate("/my-courses")} className="text-sm font-bold text-brand border border-slate-200 rounded-lg px-4 py-2 hover:bg-slate-50">View all</button>
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-extrabold text-brand">Enrolled Courses</h2>
+          <button onClick={() => navigate("/my-courses")} className="text-sm font-bold text-brand border border-slate-200 rounded-lg px-4 py-2 hover:bg-slate-50">View all</button>
+        </div>
+        {enrolled.length === 0 ? (
+          <div className="bg-white border border-slate-100 rounded-2xl p-10 text-center">
+            <div className="w-12 h-12 mx-auto rounded-xl bg-accent-soft text-accent flex items-center justify-center mb-4">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" /></svg>
+            </div>
+            <p className="font-bold text-brand text-lg mb-1">No enrolled courses</p>
+            <p className="text-slate-400 mb-6">Enrolled courses will appear here.</p>
+            <Btn onClick={() => navigate("/catalog")}>Explore courses</Btn>
           </div>
-          {enrolled.length === 0 ? (
-            <div className="bg-white border border-slate-100 rounded-2xl p-10 text-center">
-              <div className="w-12 h-12 mx-auto rounded-xl bg-accent-soft text-accent flex items-center justify-center mb-4">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" /></svg>
-              </div>
-              <p className="font-bold text-brand text-lg mb-1">No enrolled courses</p>
-              <p className="text-slate-400 mb-6">Enrolled courses will appear here.</p>
-              <Btn onClick={() => navigate("/catalog")}>Browse catalog</Btn>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {enrolled.slice(0, 4).map((c) => (
-                <CourseRow key={c.course_id} course={c} onClick={() => navigate(`/player/${c.course_id}`)} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-extrabold text-brand mb-4">Available Courses</h2>
-          <div className="space-y-3">
-            {catalog.slice(0, 5).map((c) => (
+        ) : (
+          <div className="grid sm:grid-cols-2 gap-3">
+            {enrolled.slice(0, 6).map((c) => (
               <CourseRow key={c.course_id} course={c} onClick={() => navigate(`/player/${c.course_id}`)} />
             ))}
-            {catalog.length === 0 && (
-              <div className="bg-white border border-slate-100 rounded-2xl p-10 text-center text-slate-400">No courses in the catalog yet.</div>
-            )}
           </div>
-        </section>
-      </div>
+        )}
+      </section>
     </div>
   );
 };
@@ -164,7 +147,7 @@ const InstructorDashboard = ({ name, stats }) => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
               Create course
             </Btn>
-            <Btn variant="ghost" onClick={() => navigate("/catalog")}>Public catalog</Btn>
+            <Btn variant="ghost" onClick={() => navigate("/catalog")}>Explore</Btn>
           </div>
         </div>
 

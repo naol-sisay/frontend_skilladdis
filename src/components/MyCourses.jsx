@@ -65,12 +65,12 @@ const MyCourses = () => {
                         </svg>
                     </div>
                     <h2 className="text-2xl font-bold text-brand mb-2">No courses yet</h2>
-                    <p className="text-slate-500 mb-8">Browse the catalog and enroll in your first course.</p>
+                    <p className="text-slate-500 mb-8">Explore courses and enroll in your first one.</p>
                     <button
                         onClick={() => navigate('/catalog')}
-                        className="bg-accent text-white px-8 py-3.5 rounded-xl font-bold shadow-md hover:bg-accent-strong transition-colors"
+                        className="bg-accent text-white px-8 py-3.5 rounded-xl font-bold glow-accent hover:bg-accent-strong transition-colors"
                     >
-                        Browse Catalog
+                        Explore Courses
                     </button>
                 </div>
             ) : (

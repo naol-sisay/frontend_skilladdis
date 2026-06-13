@@ -13,6 +13,7 @@ import Profile from "./components/Profile";
 import ExamEngine from "./components/ExamEngine";
 import CertificateView from "./components/CertificateView";
 import AddExamQuestion from "./components/AddExamQuestion";
+import AdminConsole from "./components/AdminConsole";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         <Route path="/player/:courseId" element={<CoursePlayer />} />
         <Route path="/certificate/:certificateId" element={<CertificateView />} />
         <Route path="/exam/:courseId" element={<ExamEngine />} />
+
+        {/* Hidden admin console — reached only by typing /admin */}
+        <Route path="/admin" element={<AdminConsole />} />
 
         {/* App pages inside the sidebar shell */}
         <Route element={<AppShell />}>

@@ -116,6 +116,21 @@
   .stagger > *:nth-child(8) { animation-delay: 0.32s; }
   .stagger > *:nth-child(9) { animation-delay: 0.36s; }
 
+  /* Soft blue glow — reference look, kept on-brand (blue, not purple).
+     accent #2d5bff == rgb(45,91,255). */
+  .glow-accent {
+    box-shadow: 0 6px 20px -6px rgba(45, 91, 255, 0.45);
+  }
+  .glow-accent-lg {
+    box-shadow:
+      0 10px 34px -8px rgba(45, 91, 255, 0.55),
+      0 4px 12px -6px rgba(45, 91, 255, 0.35);
+  }
+  /* Soft ambient halo for the active bottom-nav tab / chips */
+  .glow-soft {
+    box-shadow: 0 0 0 4px rgba(231, 237, 255, 0.9), 0 8px 18px -8px rgba(45, 91, 255, 0.4);
+  }
+
   /* Premium lift on hover for cards */
   .card-lift {
     transition:

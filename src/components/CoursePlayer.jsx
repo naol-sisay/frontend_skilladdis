@@ -106,7 +106,7 @@ const CoursePlayer = () => {
                     }`}
                   >
                     <span className="shrink-0 text-slate-500">
-                      {mat.material_type === "video" ? (
+                      {(mat.type || mat.material_type) === "video" ? (
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                       ) : (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -164,7 +164,7 @@ const CoursePlayer = () => {
               </p>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-brand mb-6">{activeMaterial.title}</h1>
 
-              {activeMaterial.material_type === "video" ? (
+              {(activeMaterial.type || activeMaterial.material_type) === "video" ? (
                 <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
                   <iframe
                     className="w-full aspect-video rounded-xl"

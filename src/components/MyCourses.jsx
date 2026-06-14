@@ -84,7 +84,14 @@ const MyCourses = () => {
                                 <img
                                     src={course.thumbnail_url || FALLBACK}
                                     alt={course.title}
-                                    onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK; }}
+                                    onError={(e) => {
+                                        if (e.target.src.includes("maxresdefault")) {
+                                            e.target.src = e.target.src.replace("maxresdefault", "hqdefault");
+                                            return;
+                                        }
+                                        e.target.onerror = null;
+                                        e.target.src = FALLBACK;
+                                    }}
                                     className="w-full h-full object-cover"
                                 />
                                 <span className="absolute top-3 left-3 bg-white/95 backdrop-blur text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full text-green-700">

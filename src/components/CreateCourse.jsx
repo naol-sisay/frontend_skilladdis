@@ -55,7 +55,8 @@ const CreateCourse = () => {
         /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       const match = value.match(regExp);
       if (match && match[2].length === 11) {
-        updatedData.thumbnail_url = `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
+        // hqdefault always exists; maxresdefault 404s for many videos.
+        updatedData.thumbnail_url = `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
       }
     }
     setCourseData(updatedData);

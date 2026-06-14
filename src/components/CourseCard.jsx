@@ -71,6 +71,11 @@ const CourseCard = ({ course }) => {
           alt={course.title}
           loading="lazy"
           onError={(e) => {
+            // maxresdefault often 404s — try hqdefault before giving up.
+            if (e.target.src.includes("maxresdefault")) {
+              e.target.src = e.target.src.replace("maxresdefault", "hqdefault");
+              return;
+            }
             e.target.onerror = null;
             e.target.src = "https://placehold.co/600x400/1E293B/FFF?text=No+Image";
           }}

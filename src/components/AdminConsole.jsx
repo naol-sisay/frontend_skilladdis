@@ -327,6 +327,183 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
   );
 };
 
+/* ----------------------- Curriculum edit modal ----------------------- */
+const blankMaterial = () => ({ type: "video", title: "", content: "" });
+const blankSection = () => ({ title: "", materials: [blankMaterial()] });
+
+const CurriculumEditModal = ({ course, onClose, notify }) => {
+  const [syllabus, setSyllabus] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const field = "w-full p-2.5 bg-canvas border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-accent text-brand text-sm";
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const res = await api.get(`/admin/courses/${course.course_id}/syllabus`);
+        if (!active) return;
+        // Normalise into the editable shape the save endpoint expects.
+        const loaded = (res.data.syllabus || []).map((s) => ({
+          title: s.title || "",
+          materials: (s.materials || []).map((m) => ({
+            type: m.type || "video",
+            title: m.title || "",
+            content: m.content || "",
+          })),
+        }));
+        setSyllabus(loaded.length ? loaded : [blankSection()]);
+      } catch (e) {
+        notify(e?.response?.data?.error || "Could not load curriculum.", true);
+        setSyllabus([blankSection()]);
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => { active = false; };
+  }, [course.course_id, notify]);
+
+  const mutate = (fn) => setSyllabus((prev) => { const next = structuredClone(prev); fn(next); return next; });
+
+  const addSection = () => mutate((s) => s.push(blankSection()));
+  const removeSection = (i) => mutate((s) => s.splice(i, 1));
+  const setSectionTitle = (i, v) => mutate((s) => { s[i].title = v; });
+  const addMaterial = (i) => mutate((s) => s[i].materials.push(blankMaterial()));
+  const removeMaterial = (i, j) => mutate((s) => s[i].materials.splice(j, 1));
+  const setMaterial = (i, j, k, v) => mutate((s) => { s[i].materials[j][k] = v; });
+
+  const save = async () => {
+    // Drop empty sections / lessons so admins can prune by clearing fields.
+    const cleaned = syllabus
+      .map((s) => ({
+        title: s.title.trim(),
+        materials: s.materials.filter((m) => m.title.trim() || m.content.trim()),
+      }))
+      .filter((s) => s.title || s.materials.length);
+
+    if (cleaned.length === 0) {
+      notify("Add at least one section before saving.", true);
+      return;
+    }
+    setSaving(true);
+    try {
+      await api.put(`/admin/courses/${course.course_id}/syllabus`, { syllabus: cleaned });
+      notify("Curriculum saved.");
+      onClose();
+    } catch (e) {
+      notify(e?.response?.data?.error || e?.response?.data?.detail || "Could not save curriculum.", true);
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6">
+        <div className="flex items-start justify-between mb-1">
+          <h3 className="text-xl font-extrabold text-brand">Edit curriculum</h3>
+          <button onClick={onClose} className="text-slate-400 hover:text-brand text-2xl leading-none">&times;</button>
+        </div>
+        <p className="text-sm text-slate-400 mb-5 truncate">{course.title}</p>
+
+        {loading ? (
+          <p className="text-slate-400 py-10 text-center">Loading curriculum…</p>
+        ) : (
+          <div className="space-y-5">
+            {syllabus.map((section, sIdx) => (
+              <div key={sIdx} className="bg-canvas border border-slate-200 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-bold text-slate-400 shrink-0">#{sIdx + 1}</span>
+                  <input
+                    className={field}
+                    value={section.title}
+                    placeholder="Section title"
+                    onChange={(e) => setSectionTitle(sIdx, e.target.value)}
+                  />
+                  <button
+                    onClick={() => removeSection(sIdx)}
+                    className="text-xs font-bold text-red-600 hover:bg-red-50 px-2 py-1.5 rounded-lg shrink-0"
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                <div className="pl-3 border-l-2 border-slate-200 space-y-3">
+                  {section.materials.map((mat, mIdx) => (
+                    <div key={mIdx} className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col sm:flex-row gap-2">
+                      <select
+                        value={mat.type}
+                        onChange={(e) => setMaterial(sIdx, mIdx, "type", e.target.value)}
+                        className="p-2 border border-slate-300 rounded text-sm sm:w-28 shrink-0"
+                      >
+                        <option value="video">Video</option>
+                        <option value="note">Study Note</option>
+                      </select>
+                      <input
+                        className="p-2 border border-slate-300 rounded text-sm sm:w-1/3"
+                        value={mat.title}
+                        placeholder="Lesson title"
+                        onChange={(e) => setMaterial(sIdx, mIdx, "title", e.target.value)}
+                      />
+                      {mat.type === "video" ? (
+                        <input
+                          className="p-2 border border-slate-300 rounded text-sm flex-1"
+                          value={mat.content}
+                          placeholder="https://youtube.com/..."
+                          onChange={(e) => setMaterial(sIdx, mIdx, "content", e.target.value)}
+                        />
+                      ) : (
+                        <textarea
+                          className="p-2 border border-slate-300 rounded text-sm flex-1"
+                          value={mat.content}
+                          rows={2}
+                          placeholder="Study notes…"
+                          onChange={(e) => setMaterial(sIdx, mIdx, "content", e.target.value)}
+                        />
+                      )}
+                      <button
+                        onClick={() => removeMaterial(sIdx, mIdx)}
+                        className="text-xs font-bold text-red-600 hover:bg-red-50 px-2 rounded shrink-0"
+                        title="Remove lesson"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    onClick={() => addMaterial(sIdx)}
+                    className="text-sm font-bold text-accent hover:text-accent-strong"
+                  >
+                    + Add lesson
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            <button
+              onClick={addSection}
+              className="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-lg hover:bg-slate-200 text-sm"
+            >
+              + Add section
+            </button>
+          </div>
+        )}
+
+        <div className="flex justify-end gap-3 mt-6 sticky bottom-0 bg-white pt-4">
+          <button onClick={onClose} className="px-5 py-2.5 font-bold text-slate-500 hover:text-brand">Cancel</button>
+          <button
+            onClick={save}
+            disabled={saving || loading}
+            className="px-6 py-2.5 bg-accent text-white font-bold rounded-xl glow-accent hover:bg-accent-strong disabled:opacity-60"
+          >
+            {saving ? "Saving…" : "Save curriculum"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 /* -------------------------- Courses tab ------------------------------ */
 const CoursesTab = ({ notify }) => {
   const [courses, setCourses] = useState([]);
@@ -334,6 +511,7 @@ const CoursesTab = ({ notify }) => {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState("");
   const [editing, setEditing] = useState(null);
+  const [editingCurriculum, setEditingCurriculum] = useState(null);
 
   const load = useCallback(async (q = "") => {
     setLoading(true);
@@ -432,6 +610,12 @@ const CoursesTab = ({ notify }) => {
                 >
                   Edit
                 </button>
+                <button
+                  onClick={() => setEditingCurriculum(c)}
+                  className="text-sm font-bold text-brand hover:bg-slate-100 px-3 py-1.5 rounded-lg"
+                >
+                  Curriculum
+                </button>
                 <DangerButton onConfirm={() => remove(c.course_id)} busy={busyId === c.course_id} />
               </div>
             </div>
@@ -444,6 +628,14 @@ const CoursesTab = ({ notify }) => {
           course={editing}
           onClose={() => setEditing(null)}
           onSaved={(updated) => setCourses((c) => c.map((x) => (x.course_id === updated.course_id ? updated : x)))}
+          notify={notify}
+        />
+      )}
+
+      {editingCurriculum && (
+        <CurriculumEditModal
+          course={editingCurriculum}
+          onClose={() => setEditingCurriculum(null)}
           notify={notify}
         />
       )}

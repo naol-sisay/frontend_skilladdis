@@ -1,22 +1,41 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../api/axios";
+import Avatar from "./Avatar";
 
 /* ---------- shared bits ---------- */
 
-const StatCard = ({ label, value, icon }) => (
-  <div className="bg-white border border-slate-100 rounded-2xl p-5 card-lift">
-    <div className="flex items-center justify-between text-slate-400 mb-3">
-      <span className="text-sm font-semibold">{label}</span>
-      <span className="text-accent">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
-        </svg>
-      </span>
-    </div>
-    <div className="text-4xl font-extrabold text-brand">{value}</div>
-  </div>
-);
+// A stat tile. When `onClick` is supplied it renders as a button with a
+// hover affordance + chevron, so users can drill into the matching list.
+const StatCard = ({ label, value, icon, onClick, hint }) => {
+  const Tag = onClick ? "button" : "div";
+  return (
+    <Tag
+      onClick={onClick}
+      className={`bg-white border border-slate-100 rounded-2xl p-5 card-lift text-left w-full block ${
+        onClick ? "cursor-pointer hover:border-accent/40 group" : ""
+      }`}
+    >
+      <div className="flex items-center justify-between text-slate-400 mb-3">
+        <span className="text-sm font-semibold">{label}</span>
+        <span className="text-accent">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
+          </svg>
+        </span>
+      </div>
+      <div className="text-4xl font-extrabold text-brand">{value}</div>
+      {onClick && (
+        <div className="mt-2 flex items-center gap-1 text-sm font-semibold text-slate-400 group-hover:text-accent transition-colors">
+          {hint || "View"}
+          <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      )}
+    </Tag>
+  );
+};
 
 const CourseRow = ({ course, onClick }) => (
   <button
@@ -53,7 +72,7 @@ const Btn = ({ children, onClick, variant = "primary" }) => (
 
 /* ---------- student ---------- */
 
-const StudentDashboard = ({ name, stats }) => {
+const StudentDashboard = ({ name, stats, photo }) => {
   const navigate = useNavigate();
   const [enrolled, setEnrolled] = useState([]);
 
@@ -81,25 +100,31 @@ const StudentDashboard = ({ name, stats }) => {
           </div>
         </div>
 
-        <div className="bg-brand text-white rounded-2xl p-7 flex flex-col justify-between">
+        <button
+          onClick={() => navigate("/profile")}
+          className="bg-brand text-white rounded-2xl p-7 flex flex-col justify-between text-left card-lift cursor-pointer"
+        >
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-sm font-semibold">Your account</span>
             <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 17l6-6 4 4 8-8" /></svg>
           </div>
-          <div>
-            <p className="text-3xl font-extrabold mt-6">{name}</p>
-            <p className="text-slate-400 mt-1">
-              {enrolled.length ? `${enrolled.length} enrolled course${enrolled.length > 1 ? "s" : ""}` : "No active enrollments"}
-            </p>
+          <div className="mt-6 flex items-center gap-4">
+            <Avatar name={name} src={photo} size={56} ring />
+            <div className="min-w-0">
+              <p className="text-2xl font-extrabold truncate">{name}</p>
+              <p className="text-slate-400 mt-0.5">
+                {enrolled.length ? `${enrolled.length} enrolled course${enrolled.length > 1 ? "s" : ""}` : "No active enrollments"}
+              </p>
+            </div>
           </div>
-        </div>
+        </button>
       </div>
 
       {/* stats */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-        <StatCard label="Enrolled" value={enrolled.length} icon="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" />
-        <StatCard label="Active" value={activeCount} icon="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        <StatCard label="Completed" value={stats.certificates_earned ?? 0} icon="M3 17l6-6 4 4 8-8" />
+        <StatCard label="Enrolled" value={enrolled.length} hint="View courses" onClick={() => navigate("/my-courses")} icon="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" />
+        <StatCard label="Active" value={activeCount} hint="Keep learning" onClick={() => navigate("/my-courses")} icon="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <StatCard label="Completed" value={stats.certificates_earned ?? 0} hint="View finished" onClick={() => navigate("/my-courses")} icon="M3 17l6-6 4 4 8-8" />
       </div>
 
       {/* lists */}
@@ -131,7 +156,7 @@ const StudentDashboard = ({ name, stats }) => {
 
 /* ---------- instructor (kept clean — metrics live on /instructor/courses) ---------- */
 
-const InstructorDashboard = ({ name, stats }) => {
+const InstructorDashboard = ({ name, stats, photo }) => {
   const navigate = useNavigate();
 
   return (
@@ -151,16 +176,22 @@ const InstructorDashboard = ({ name, stats }) => {
           </div>
         </div>
 
-        <div className="bg-brand text-white rounded-2xl p-7 flex flex-col justify-between">
+        <button
+          onClick={() => navigate("/profile")}
+          className="bg-brand text-white rounded-2xl p-7 flex flex-col justify-between text-left card-lift cursor-pointer"
+        >
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-sm font-semibold">Instructor workspace</span>
             <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
-          <div>
-            <p className="text-3xl font-extrabold mt-6">{name}</p>
-            <p className="text-slate-400 mt-1">{stats.courses_published ?? 0} published course{(stats.courses_published ?? 0) === 1 ? "" : "s"}</p>
+          <div className="mt-6 flex items-center gap-4">
+            <Avatar name={name} src={photo} size={56} ring />
+            <div className="min-w-0">
+              <p className="text-2xl font-extrabold truncate">{name}</p>
+              <p className="text-slate-400 mt-0.5">{stats.courses_published ?? 0} published course{(stats.courses_published ?? 0) === 1 ? "" : "s"}</p>
+            </div>
           </div>
-        </div>
+        </button>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-6">
@@ -184,7 +215,7 @@ const InstructorDashboard = ({ name, stats }) => {
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState({ name: "", role: "" });
+  const [user, setUser] = useState({ name: "", role: "", photo: "" });
   const [stats, setStats] = useState({});
   const [notification, setNotification] = useState("");
 
@@ -193,13 +224,17 @@ const Dashboard = () => {
     if (!token) return navigate("/login");
     try {
       const p = JSON.parse(atob(token.split(".")[1]));
-      setUser({ name: p.name || "User", role: p.role?.toUpperCase() });
+      setUser((u) => ({ ...u, name: p.name || "User", role: p.role?.toUpperCase() }));
     } catch {
       navigate("/login");
     }
     api.get("/auth/me").then((r) => {
       setStats(r.data.stats || {});
-      if (r.data.user?.full_name) setUser((u) => ({ ...u, name: r.data.user.full_name }));
+      setUser((u) => ({
+        ...u,
+        name: r.data.user?.full_name || u.name,
+        photo: r.data.user?.profile_picture_url || "",
+      }));
     }).catch(() => {});
   }, [navigate]);
 
@@ -221,9 +256,9 @@ const Dashboard = () => {
         </div>
       )}
       {user.role === "INSTRUCTOR" ? (
-        <InstructorDashboard name={user.name} stats={stats} />
+        <InstructorDashboard name={user.name} stats={stats} photo={user.photo} />
       ) : (
-        <StudentDashboard name={user.name} stats={stats} />
+        <StudentDashboard name={user.name} stats={stats} photo={user.photo} />
       )}
     </>
   );

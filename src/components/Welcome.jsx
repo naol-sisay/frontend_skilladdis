@@ -1,40 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { CapMark } from "./Logo";
-
-const orbitPanels = [
-  {
-    badge: "Paths",
-    title: "Guided tracks",
-    detail: "Clear next steps from intro lessons to project work.",
-    wrapperClass: "absolute left-1/2 top-5 -translate-x-[145%] sm:-translate-x-[195%]",
-    cardClass: "welcome-orbit-card welcome-orbit-card--soft",
-    delay: "0.15s",
-  },
-  {
-    badge: "Practice",
-    title: "Hands-on labs",
-    detail: "Build with short exercises that stay active on the page.",
-    wrapperClass: "absolute left-1/2 top-3 translate-x-[50%] sm:translate-x-[108%]",
-    cardClass: "welcome-orbit-card",
-    delay: "0.55s",
-  },
-  {
-    badge: "Streak",
-    title: "Daily progress",
-    detail: "Momentum stays visible every time you come back.",
-    wrapperClass: "absolute left-1/2 bottom-11 hidden -translate-x-[165%] sm:block sm:-translate-x-[215%]",
-    cardClass: "welcome-orbit-card",
-    delay: "0.35s",
-  },
-  {
-    badge: "Mastery",
-    title: "Track outcomes",
-    detail: "See what is done, what is next, and what needs work.",
-    wrapperClass: "absolute left-1/2 bottom-12 hidden translate-x-[65%] sm:block sm:translate-x-[118%]",
-    cardClass: "welcome-orbit-card welcome-orbit-card--soft",
-    delay: "0.85s",
-  },
-];
+import { StackedLogo } from "./Logo";
 
 const Welcome = () => {
   const navigate = useNavigate();
@@ -48,59 +13,29 @@ const Welcome = () => {
       </div>
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center py-14 sm:py-20">
-        <div className="w-full max-w-3xl text-center">
-          <div className="relative mx-auto mb-6 h-[320px] w-full max-w-[760px] sm:mb-8 sm:h-[380px]" aria-hidden="true">
-            <div className="welcome-stage-floor" />
-            <div className="welcome-stage-ring welcome-stage-ring--outer" />
-            <div className="welcome-stage-ring welcome-stage-ring--inner" />
-
-            {orbitPanels.map((panel) => (
-              <div key={panel.title} className={panel.wrapperClass}>
-                <div className={panel.cardClass} style={{ animationDelay: panel.delay }}>
-                  <div className="flex items-center justify-between">
-                    <span className="welcome-chip">{panel.badge}</span>
-                    <span className="welcome-status-dot" />
-                  </div>
-                  <p className="mt-4 text-left text-sm font-semibold text-brand">{panel.title}</p>
-                  <p className="mt-1 text-left text-xs leading-5 text-slate-500">{panel.detail}</p>
-                  <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
-                    <div className="welcome-orbit-card__bar" style={{ animationDelay: panel.delay }} />
-                  </div>
-                  <div className="mt-3 flex gap-2">
-                    <span className="h-2 flex-1 rounded-full bg-slate-100" />
-                    <span className="h-2 w-12 rounded-full bg-slate-100" />
-                  </div>
-                </div>
+        <div className="w-full max-w-2xl text-center">
+          {/* Device with a logo card that pulls out of the dock on load */}
+          <div className="welcome-scene" aria-hidden="true">
+            <div className="welcome-screen">
+              <div className="welcome-note welcome-note--left">
+                <span className="welcome-note__bar" />
+                <span className="welcome-note__line" />
               </div>
-            ))}
+              <div className="welcome-note welcome-note--right">
+                <span className="welcome-note__bar" />
+                <span className="welcome-note__line" />
+              </div>
 
-            <div className="welcome-spark welcome-spark--left" />
-            <div className="welcome-spark welcome-spark--right" />
+              <div className="welcome-logo-card">
+                <StackedLogo capClass="w-16 h-16 text-accent" textClass="text-2xl" />
+              </div>
 
-            <div className="relative mx-auto h-[250px] w-[280px] pt-8 sm:h-[290px] sm:w-[320px] sm:pt-10">
-              <div className="welcome-core-shadow welcome-core-shadow--rear" />
-              <div className="welcome-core-shadow welcome-core-shadow--mid" />
-              <div className="welcome-core-card animate-scale-in">
-                <div className="welcome-core__cap-shell">
-                  <div className="welcome-core__cap-aura" />
-                  <CapMark className="welcome-core__cap" />
-                </div>
-                <div className="mt-6 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-accent/80">
-                  Learn. Practice. Grow.
-                </div>
-                <div className="mt-3 text-3xl font-extrabold tracking-tight text-brand sm:text-4xl">
-                  SkillAddis
-                </div>
-                <p className="mx-auto mt-4 max-w-xs text-sm leading-6 text-slate-500 sm:text-[15px]">
-                  Structured lessons, focused practice, and progress that feels alive the moment the page opens.
-                </p>
-                <div className="mt-6 w-full max-w-[15rem]">
-                  <div className="welcome-core__meter">
-                    <div className="welcome-core__meter-fill" />
-                  </div>
-                </div>
+              <div className="welcome-dock">
+                <span className="welcome-dock__slot" />
               </div>
             </div>
+
+            <div className="welcome-progress"><span /></div>
           </div>
 
           <h1 className="text-4xl font-extrabold text-brand animate-fade-in-up sm:text-5xl">

@@ -38,10 +38,10 @@ const Welcome = () => {
             <div className="welcome-progress"><span /></div>
           </div>
 
-          <h1 className="text-4xl font-extrabold text-brand animate-fade-in-up sm:text-5xl">
+          <h1 className="text-4xl font-extrabold text-ink animate-fade-in-up sm:text-5xl">
             Welcome to SkillAddis
           </h1>
-          <p className="mt-4 text-lg text-slate-500 animate-fade-in-up" style={{ animationDelay: "0.08s" }}>
+          <p className="mt-4 text-lg text-ink-muted animate-fade-in-up" style={{ animationDelay: "0.08s" }}>
             {authed ? "Pick up where you left off." : "Choose how you want to start learning."}
           </p>
 
@@ -56,7 +56,7 @@ const Welcome = () => {
                 </button>
                 <button
                   onClick={() => navigate("/catalog")}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-4 text-lg font-bold text-brand transition-all hover:bg-slate-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-8 py-4 text-lg font-bold text-ink transition-all hover:bg-surface-2"
                 >
                   Explore
                 </button>
@@ -74,7 +74,7 @@ const Welcome = () => {
                 </button>
                 <button
                   onClick={() => navigate("/login")}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-4 text-lg font-bold text-brand transition-all hover:bg-slate-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-8 py-4 text-lg font-bold text-ink transition-all hover:bg-surface-2"
                 >
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />

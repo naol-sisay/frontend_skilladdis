@@ -9,7 +9,7 @@ export const CapMark = ({ className = "w-8 h-8 text-accent" }) => (
 export const StackedLogo = ({ capClass = "w-14 h-14 text-accent", textClass = "text-xl" }) => (
   <div className="flex flex-col items-center">
     <CapMark className={capClass} />
-    <span className={`mt-2 font-extrabold text-brand tracking-tight ${textClass}`}>SkillAddis</span>
+    <span className={`mt-2 font-extrabold text-ink tracking-tight ${textClass}`}>SkillAddis</span>
   </div>
 );
 
@@ -18,9 +18,9 @@ const Logo = ({ subtitle, size = "text-2xl", capClass }) => (
   <div className="flex items-center gap-2.5">
     <CapMark className={capClass || "w-8 h-8 text-accent"} />
     <div className="leading-none">
-      <span className={`block font-extrabold tracking-tight text-brand ${size}`}>SkillAddis</span>
+      <span className={`block font-extrabold tracking-tight text-ink ${size}`}>SkillAddis</span>
       {subtitle && (
-        <span className="block text-[11px] font-semibold text-slate-400 mt-1">{subtitle}</span>
+        <span className="block text-[11px] font-semibold text-ink-faint mt-1">{subtitle}</span>
       )}
     </div>
   </div>

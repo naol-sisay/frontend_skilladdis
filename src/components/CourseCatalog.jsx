@@ -43,10 +43,10 @@ const CourseCatalog = () => {
           <span className="w-1.5 h-1.5 rounded-full bg-accent" />
           Course catalog
         </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-brand tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
           Explore Courses
         </h1>
-        <p className="mt-3 text-lg text-slate-500">
+        <p className="mt-3 text-lg text-ink-muted">
           Find your next skill and start learning today.
         </p>
       </div>
@@ -55,9 +55,9 @@ const CourseCatalog = () => {
       <div className="max-w-2xl mx-auto mb-12">
         <form
           onSubmit={handleSearch}
-          className="flex items-center bg-white shadow-md rounded-2xl border border-gray-100 overflow-hidden focus-within:ring-2 focus-within:ring-accent transition"
+          className="flex items-center bg-surface shadow-md rounded-2xl border border-line overflow-hidden focus-within:ring-2 focus-within:ring-accent transition"
         >
-          <svg className="w-5 h-5 text-slate-400 ml-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-ink-faint ml-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -65,10 +65,10 @@ const CourseCatalog = () => {
             placeholder="Search for Python, Business, Design…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-4 outline-none text-brand font-medium placeholder:text-slate-400"
+            className="w-full p-4 outline-none text-ink font-medium placeholder:text-ink-faint"
           />
           {searchTerm && (
-            <button type="button" onClick={handleClear} className="px-3 text-slate-400 hover:text-red-500 transition" aria-label="Clear">
+            <button type="button" onClick={handleClear} className="px-3 text-ink-faint hover:text-red-500 transition" aria-label="Clear">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -86,7 +86,7 @@ const CourseCatalog = () => {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div key={i} className="bg-surface rounded-2xl border border-line overflow-hidden">
               <div className="h-44 skeleton" />
               <div className="p-5 space-y-3">
                 <div className="h-3 w-1/3 skeleton rounded" />
@@ -98,9 +98,9 @@ const CourseCatalog = () => {
           ))}
         </div>
       ) : courses.length === 0 ? (
-        <div className="bg-white border border-gray-100 rounded-2xl p-12 text-center shadow-sm max-w-xl mx-auto">
-          <h2 className="text-2xl font-bold text-brand mb-2">No results found</h2>
-          <p className="text-slate-500">Try adjusting your search keywords.</p>
+        <div className="bg-surface border border-line rounded-2xl p-12 text-center shadow-sm max-w-xl mx-auto">
+          <h2 className="text-2xl font-bold text-ink mb-2">No results found</h2>
+          <p className="text-ink-muted">Try adjusting your search keywords.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 stagger">

@@ -13,10 +13,10 @@ const ICON = {
 // Module-level so it isn't remounted each render (which would drop input focus).
 const IconField = ({ label, icon, children }) => (
     <div>
-        <label className="block text-sm font-bold text-brand mb-2">{label}</label>
+        <label className="block text-sm font-bold text-ink mb-2">{label}</label>
         <div className="relative">
             {icon && (
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
                     </svg>
@@ -109,7 +109,7 @@ const Register = () => {
     };
 
     const inputClass =
-        "w-full p-3.5 bg-canvas border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-brand font-medium placeholder:text-slate-400";
+        "w-full p-3.5 bg-canvas border border-line rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-ink font-medium placeholder:text-ink-faint";
     const inputWithIcon = inputClass.replace("p-3.5", "p-3.5 pl-11");
 
     const roles = [
@@ -130,14 +130,14 @@ const Register = () => {
             progress={step === 1 ? 25 : 70}
             footer={
                 step === 1
-                    ? <>Already have an account? <Link to="/login" className="text-brand font-bold hover:text-accent transition-colors">Log in</Link></>
-                    : <button type="button" onClick={() => { setStep(1); setMessage(''); }} className="text-brand font-bold hover:text-accent transition-colors">&larr; Back to account details</button>
+                    ? <>Already have an account? <Link to="/login" className="text-ink font-bold hover:text-accent transition-colors">Log in</Link></>
+                    : <button type="button" onClick={() => { setStep(1); setMessage(''); }} className="text-ink font-bold hover:text-accent transition-colors">&larr; Back to account details</button>
             }
         >
             {step === 1 ? (
                 <form onSubmit={goToProfile} className="flex flex-col gap-5">
                     <div>
-                        <label className="block text-sm font-bold text-brand mb-2">I want to join as</label>
+                        <label className="block text-sm font-bold text-ink mb-2">I want to join as</label>
                         <div className="grid grid-cols-2 gap-3">
                             {roles.map((r) => (
                                 <button
@@ -147,30 +147,30 @@ const Register = () => {
                                     className={`text-left p-4 rounded-xl border-2 transition-all ${
                                         formData.role === r.value
                                             ? 'border-accent bg-accent-soft glow-accent'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                            : 'border-line hover:border-line'
                                     }`}
                                 >
-                                    <span className="block font-bold text-brand">{r.label}</span>
-                                    <span className="block text-xs text-slate-500 mt-0.5">{r.desc}</span>
+                                    <span className="block font-bold text-ink">{r.label}</span>
+                                    <span className="block text-xs text-ink-muted mt-0.5">{r.desc}</span>
                                 </button>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-bold text-brand mb-2">Full name</label>
+                        <label className="block text-sm font-bold text-ink mb-2">Full name</label>
                         <input className={inputClass} type="text" name="full_name" placeholder="Abebe Bekele"
                             value={formData.full_name} onChange={handleChange} required />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-bold text-brand mb-2">Email address</label>
+                        <label className="block text-sm font-bold text-ink mb-2">Email address</label>
                         <input className={inputClass} type="email" name="email" placeholder="you@example.com"
                             value={formData.email} onChange={handleChange} required />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-bold text-brand mb-2">Password</label>
+                        <label className="block text-sm font-bold text-ink mb-2">Password</label>
                         <input className={inputClass} type="password" name="password" placeholder="At least 6 characters"
                             value={formData.password} onChange={handleChange} required />
                     </div>
@@ -207,7 +207,7 @@ const Register = () => {
                             >
                                 {photoFile ? "Change photo" : "Upload photo"}
                             </button>
-                            <p className="text-xs text-slate-400 mt-1.5">Optional — JPG or PNG.</p>
+                            <p className="text-xs text-ink-faint mt-1.5">Optional — JPG or PNG.</p>
                         </div>
                         <input ref={fileRef} type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
                     </div>
@@ -218,7 +218,7 @@ const Register = () => {
                     </IconField>
 
                     <div>
-                        <label className="block text-sm font-bold text-brand mb-2">Professional headline</label>
+                        <label className="block text-sm font-bold text-ink mb-2">Professional headline</label>
                         <input className={inputClass} type="text" name="headline" placeholder="e.g. The fine art teacher"
                             value={formData.headline} onChange={handleChange} />
                     </div>
@@ -229,7 +229,7 @@ const Register = () => {
                     </IconField>
 
                     <div>
-                        <label className="block text-sm font-bold text-brand mb-2">Bio</label>
+                        <label className="block text-sm font-bold text-ink mb-2">Bio</label>
                         <textarea className={inputClass} name="bio" rows="4" placeholder="Tell learners about yourself…"
                             value={formData.bio} onChange={handleChange} />
                     </div>
@@ -243,7 +243,7 @@ const Register = () => {
                             type="button"
                             onClick={() => submit(false)}
                             disabled={loading}
-                            className="flex-1 p-3.5 bg-white border border-gray-200 text-brand text-lg font-bold rounded-xl hover:bg-slate-50 active:scale-[0.99] transition-all disabled:opacity-60"
+                            className="flex-1 p-3.5 bg-surface border border-line text-ink text-lg font-bold rounded-xl hover:bg-surface-2 active:scale-[0.99] transition-all disabled:opacity-60"
                         >
                             Skip for now
                         </button>

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 const Metric = ({ label, value, icon }) => (
-  <div className="bg-white border border-slate-100 rounded-2xl p-5 card-lift">
-    <div className="flex items-center justify-between text-slate-400 mb-3">
+  <div className="bg-surface border border-line rounded-2xl p-5 card-lift">
+    <div className="flex items-center justify-between text-ink-faint mb-3">
       <span className="text-sm font-semibold">{label}</span>
       <span className="text-accent">
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -12,14 +12,14 @@ const Metric = ({ label, value, icon }) => (
         </svg>
       </span>
     </div>
-    <div className="text-4xl font-extrabold text-brand">{value}</div>
+    <div className="text-4xl font-extrabold text-ink">{value}</div>
   </div>
 );
 
 const GlanceRow = ({ label, value }) => (
-  <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50">
-    <span className="text-sm font-semibold text-slate-600">{label}</span>
-    <span className="font-extrabold text-brand">{value}</span>
+  <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-surface-2">
+    <span className="text-sm font-semibold text-ink-muted">{label}</span>
+    <span className="font-extrabold text-ink">{value}</span>
   </div>
 );
 
@@ -57,8 +57,8 @@ const InstructorCourses = () => {
     <div className="p-6 sm:p-10 max-w-6xl mx-auto w-full">
       <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-extrabold text-brand">My Courses</h1>
-          <p className="mt-2 text-slate-500">Edit lesson content, update pricing, preview the player, or review what needs attention.</p>
+          <h1 className="text-4xl font-extrabold text-ink">My Courses</h1>
+          <p className="mt-2 text-ink-muted">Edit lesson content, update pricing, preview the player, or review what needs attention.</p>
         </div>
         <button
           onClick={() => navigate("/create-course")}
@@ -80,25 +80,25 @@ const InstructorCourses = () => {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* course list */}
         <section className="lg:col-span-2">
-          <h2 className="text-2xl font-extrabold text-brand mb-4">Your courses</h2>
+          <h2 className="text-2xl font-extrabold text-ink mb-4">Your courses</h2>
           {loading ? (
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => <div key={i} className="h-20 skeleton rounded-2xl" />)}
             </div>
           ) : mine.length === 0 ? (
-            <div className="bg-white border border-slate-100 rounded-2xl p-12 text-center">
+            <div className="bg-surface border border-line rounded-2xl p-12 text-center">
               <div className="w-14 h-14 mx-auto rounded-2xl bg-accent-soft text-accent flex items-center justify-center mb-4">
                 <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               </div>
-              <p className="text-xl font-bold text-brand mb-1">No published courses yet</p>
-              <p className="text-slate-400 mb-6">Create your first course and it will appear here.</p>
+              <p className="text-xl font-bold text-ink mb-1">No published courses yet</p>
+              <p className="text-ink-faint mb-6">Create your first course and it will appear here.</p>
               <button onClick={() => navigate("/create-course")} className="bg-accent text-white px-7 py-3 rounded-xl font-bold glow-accent hover:bg-accent-strong transition-colors">Create course</button>
             </div>
           ) : (
             <div className="space-y-3">
               {mine.map((c) => (
-                <div key={c.course_id} className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 card-lift">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+                <div key={c.course_id} className="bg-surface border border-line rounded-2xl p-4 flex items-center gap-4 card-lift">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-2 shrink-0">
                     {c.thumbnail_url ? (
                       <img src={c.thumbnail_url} alt={c.title} className="w-full h-full object-cover" onError={(e) => { e.target.style.display = "none"; }} />
                     ) : (
@@ -108,15 +108,15 @@ const InstructorCourses = () => {
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-bold text-brand truncate">{c.title}</p>
+                    <p className="font-bold text-ink truncate">{c.title}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-[11px] font-bold uppercase tracking-wide bg-accent-soft text-accent px-2 py-0.5 rounded-full">{c.category || "General"}</span>
-                      <span className="text-xs font-semibold text-slate-400">{Number(c.price_etb) > 0 ? `${c.price_etb} ETB` : "Free"}</span>
+                      <span className="text-xs font-semibold text-ink-faint">{Number(c.price_etb) > 0 ? `${c.price_etb} ETB` : "Free"}</span>
                     </div>
                   </div>
                   <button
                     onClick={() => navigate(`/player/${c.course_id}`)}
-                    className="text-sm font-bold text-brand border border-slate-200 rounded-lg px-4 py-2 hover:bg-slate-50 transition-colors shrink-0"
+                    className="text-sm font-bold text-ink border border-line rounded-lg px-4 py-2 hover:bg-surface-2 transition-colors shrink-0"
                   >
                     Preview
                   </button>
@@ -128,14 +128,14 @@ const InstructorCourses = () => {
 
         {/* side panels */}
         <aside className="space-y-6">
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
+          <div className="bg-surface border border-line rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
               <span className="w-10 h-10 rounded-xl bg-accent-soft text-accent flex items-center justify-center">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
               </span>
               <div>
-                <p className="font-bold text-brand">Needs attention</p>
-                <p className="text-xs text-slate-400">Courses that still need cleanup</p>
+                <p className="font-bold text-ink">Needs attention</p>
+                <p className="text-xs text-ink-faint">Courses that still need cleanup</p>
               </div>
             </div>
             {missingCover > 0 ? (
@@ -149,9 +149,9 @@ const InstructorCourses = () => {
             )}
           </div>
 
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
-            <p className="font-bold text-brand mb-1">At a glance</p>
-            <p className="text-xs text-slate-400 mb-4">Simple course status summary</p>
+          <div className="bg-surface border border-line rounded-2xl p-6">
+            <p className="font-bold text-ink mb-1">At a glance</p>
+            <p className="text-xs text-ink-faint mb-4">Simple course status summary</p>
             <div className="space-y-2.5">
               <GlanceRow label="Free courses" value={free} />
               <GlanceRow label="Paid courses" value={paid} />

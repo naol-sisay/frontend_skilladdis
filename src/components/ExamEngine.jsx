@@ -72,8 +72,8 @@ const ExamEngine = () => {
   if (examState === "results") {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg border border-gray-200 text-center">
-            <h2 className="text-3xl font-black text-brand mb-2">Exam Complete!</h2>
+        <div className="max-w-md w-full bg-surface p-8 rounded-2xl shadow-lg border border-line text-center">
+            <h2 className="text-3xl font-black text-ink mb-2">Exam Complete!</h2>
             
             <div className={`text-6xl font-black my-6 ${passed ? 'text-green-500' : 'text-red-500'}`}>
                 {score}%
@@ -98,7 +98,7 @@ const ExamEngine = () => {
                             setCurrentIdx(0);
                             setUserAnswers({});
                         }}
-                        className="w-full bg-brand text-white py-3 rounded-lg font-bold hover:bg-slate-800 transition"
+                        className="w-full bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-2 transition"
                     >
                         Retake Exam
                     </button>
@@ -116,22 +116,22 @@ const ExamEngine = () => {
     <div className="min-h-screen bg-canvas py-12 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold text-brand">Final Assessment</h1>
-            <span className="bg-slate-200 text-slate-700 px-4 py-1 rounded-full text-sm font-bold">
+            <h1 className="text-2xl font-bold text-ink">Final Assessment</h1>
+            <span className="bg-surface-2 text-ink px-4 py-1 rounded-full text-sm font-bold">
                 Question {currentIdx + 1} of {questions.length}
             </span>
         </div>
 
         {/* Progress */}
-        <div className="h-2 bg-slate-200 rounded-full overflow-hidden mb-8">
+        <div className="h-2 bg-surface-2 rounded-full overflow-hidden mb-8">
             <div
                 className="h-full bg-accent rounded-full transition-all duration-500"
                 style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }}
             />
         </div>
 
-        <div key={currentIdx} className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100 mb-8 animate-fade-in">
-            <h2 className="text-xl font-semibold text-slate-800 mb-6">
+        <div key={currentIdx} className="bg-surface p-6 sm:p-8 rounded-2xl shadow-sm border border-line mb-8 animate-fade-in">
+            <h2 className="text-xl font-semibold text-ink mb-6">
                 {currentQuestion.question_text}
             </h2>
 
@@ -143,7 +143,7 @@ const ExamEngine = () => {
                             className={`flex items-center p-4 border rounded-xl cursor-pointer transition ${
                                 userAnswers[currentQuestion.question_id] === optKey 
                                 ? 'border-accent bg-accent-soft' 
-                                : 'border-gray-200 hover:bg-slate-50'
+                                : 'border-line hover:bg-surface-2'
                             }`}
                         >
                             <input 
@@ -154,7 +154,7 @@ const ExamEngine = () => {
                                 onChange={() => handleSelectOption(currentQuestion.question_id, optKey)}
                                 className="w-5 h-5 text-accent focus:ring-accent"
                             />
-                            <span className="ml-3 text-slate-700 font-medium">
+                            <span className="ml-3 text-ink font-medium">
                                 {currentQuestion[optKey]}
                             </span>
                         </label>
@@ -167,7 +167,7 @@ const ExamEngine = () => {
             <button 
                 disabled={currentIdx === 0}
                 onClick={() => setCurrentIdx(prev => prev - 1)}
-                className="px-6 py-3 font-bold text-slate-500 hover:text-slate-800 disabled:opacity-50"
+                className="px-6 py-3 font-bold text-ink-muted hover:text-ink disabled:opacity-50"
             >
                 &larr; Previous
             </button>
@@ -176,7 +176,7 @@ const ExamEngine = () => {
                 <button 
                     onClick={submitExamToServer}
                     disabled={Object.keys(userAnswers).length !== questions.length}
-                    className="bg-brand text-white px-8 py-3 rounded-lg font-bold hover:bg-slate-800 disabled:opacity-50"
+                    className="bg-brand text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-2 disabled:opacity-50"
                 >
                     Submit Exam
                 </button>

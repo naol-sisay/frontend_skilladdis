@@ -1,11 +1,24 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: `.dark` on <html> (set by src/theme.js + pre-paint script) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================================
    SkillAddis Design System
    Identity: slate #1E293B + amber #F59E0B on #F8F9FA
    ============================================================ */
 
 @theme {
+  /* Semantic surface + text tokens — these flip in the `.dark` block below.
+     Components use bg-surface / text-ink / border-line instead of raw white/slate
+     so dark mode is a single source of truth. Light defaults here. */
+  --color-surface: #ffffff; /* cards, panels */
+  --color-surface-2: #f8fafc; /* inputs, muted fills, hover */
+  --color-line: #e8edf4; /* hairline borders */
+  --color-ink: #0e1320; /* primary text / headings */
+  --color-ink-muted: #64748b; /* secondary text */
+  --color-ink-faint: #94a3b8; /* tertiary text / icons */
+
   /* Brand palette — near-black navy panels + vivid blue accent.
      Flip the whole app to another hue by changing --color-accent* below. */
   --color-brand: #0e1320; /* near-black navy — dark panels & headings */
@@ -40,6 +53,29 @@
   --animate-welcome-fill: welcome-fill 4.2s cubic-bezier(0.37, 0, 0.18, 1) infinite;
   --animate-welcome-spark: welcome-spark 3s ease-in-out infinite;
   --animate-welcome-cap: welcome-cap 4.8s ease-in-out infinite;
+}
+
+/* ----- Dark theme — single source of truth for the dark palette -----
+   Only the semantic tokens flip; accent stays blue. */
+.dark {
+  --color-canvas: #0a0e1a; /* deep navy page bg */
+  --color-surface: #141a2b; /* cards / panels */
+  --color-surface-2: #1d2435; /* inputs, muted fills, hover */
+  --color-line: #2a3247; /* borders */
+  --color-ink: #e8ecf4; /* primary text */
+  --color-ink-muted: #9aa6bd; /* secondary text */
+  --color-ink-faint: #6b7689; /* tertiary text / icons */
+
+  /* Lift the dark-navy panels/buttons so they stay visible on the dark canvas
+     (bg-brand is used for primary buttons, the account card, avatars). */
+  --color-brand: #283251;
+  --color-brand-2: #344063;
+
+  /* Blue chips/active states read as translucent blue on dark surfaces */
+  --color-accent-soft: rgba(45, 91, 255, 0.22);
+  --color-accent-softer: rgba(45, 91, 255, 0.1);
+
+  color-scheme: dark;
 }
 
 /* ----- Keyframes (these were referenced in code but never defined) ----- */
@@ -169,12 +205,23 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Kill page-level horizontal scroll on mobile ("slide" sideways).
+       `clip` (not `hidden`) doesn't create a scroll container, so the
+       app's sticky headers/sidebars keep working. */
+    overflow-x: clip;
+  }
+
+  /* Media never forces the page wider than the viewport */
+  img,
+  video,
+  iframe {
+    max-width: 100%;
   }
 
   body {
     font-family: var(--font-sans);
     background-color: var(--color-canvas);
-    color: #0e1320;
+    color: var(--color-ink);
   }
 
   h1, h2, h3, h4, h5 {

@@ -27,19 +27,19 @@ const Login = () => {
     };
 
     const inputClass =
-        "w-full p-3.5 bg-canvas border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-brand font-medium placeholder:text-slate-400";
+        "w-full p-3.5 bg-canvas border border-line rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-ink font-medium placeholder:text-ink-faint";
 
     return (
         <AuthLayout
             title="Welcome back"
             subtitle="Sign in to continue learning on SkillAddis."
             footer={
-                <>Don't have an account? <Link to="/register" className="text-brand font-bold hover:text-accent transition-colors">Sign up</Link></>
+                <>Don't have an account? <Link to="/register" className="text-ink font-bold hover:text-accent transition-colors">Sign up</Link></>
             }
         >
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div>
-                    <label className="block text-sm font-bold text-brand mb-2">Email address</label>
+                    <label className="block text-sm font-bold text-ink mb-2">Email address</label>
                     <input
                         className={inputClass}
                         type="email" name="email" placeholder="you@example.com" onChange={handleChange} required
@@ -47,7 +47,7 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-bold text-brand mb-2">Password</label>
+                    <label className="block text-sm font-bold text-ink mb-2">Password</label>
                     <div className="relative">
                         <input
                             className={inputClass + " pr-12"}
@@ -56,7 +56,7 @@ const Login = () => {
                         <button
                             type="button"
                             onClick={() => setShowPw((s) => !s)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand text-sm font-semibold"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink text-sm font-semibold"
                         >
                             {showPw ? "Hide" : "Show"}
                         </button>

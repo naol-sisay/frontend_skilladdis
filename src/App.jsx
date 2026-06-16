@@ -18,16 +18,11 @@ import AdminConsole from "./components/AdminConsole";
 // Import the hook we just built
 import useInactivityLogout from "./hooks/useInactivityLogout";
 
-// 1. Build a silent tracking component that has access to the Router's location context
+// 1. Build a silent tracking component that has access to the Router's location context.
+//    The hook is ALWAYS called (Rules of Hooks); the route check lives inside it.
 const SessionTracker = () => {
   const location = useLocation();
-  const publicRoutes = ['/', '/login', '/register'];
-
-  // Only trigger the 15-minute inactivity tracker if the user is on a protected route
-  if (!publicRoutes.includes(location.pathname)) {
-    useInactivityLogout(15);
-  }
-
+  useInactivityLogout(15, location.pathname);
   return null; // This component renders nothing to the DOM
 };
 

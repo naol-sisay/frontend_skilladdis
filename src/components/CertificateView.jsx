@@ -18,7 +18,7 @@ const CertificateView = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-brand-dark flex flex-col items-center justify-center text-white gap-4 p-6">
-        <p className="text-slate-300">We couldn't load this certificate.</p>
+        <p className="text-ink-faint">We couldn't load this certificate.</p>
         <button onClick={() => navigate("/dashboard")} className="bg-accent px-6 py-3 rounded-xl font-bold">
           Back to Dashboard
         </button>
@@ -30,7 +30,7 @@ const CertificateView = () => {
     return (
       <div className="min-h-screen bg-brand-dark flex flex-col items-center justify-center text-white gap-4">
         <div className="w-12 h-12 border-4 border-white/20 border-t-accent rounded-full animate-spin" />
-        <p className="text-slate-400">Generating your certificate…</p>
+        <p className="text-ink-faint">Generating your certificate…</p>
       </div>
     );
   }
@@ -41,7 +41,7 @@ const CertificateView = () => {
       <div className="w-full max-w-3xl flex justify-between items-center mb-6 print:hidden">
         <button
           onClick={() => navigate("/dashboard")}
-          className="text-slate-300 hover:text-white font-semibold flex items-center gap-1.5 transition-colors"
+          className="text-ink-faint hover:text-white font-semibold flex items-center gap-1.5 transition-colors"
         >
           &larr; Back to Dashboard
         </button>
@@ -57,7 +57,7 @@ const CertificateView = () => {
       </div>
 
       {/* Certificate */}
-      <div className="relative max-w-3xl w-full bg-white shadow-2xl animate-scale-in">
+      <div className="relative max-w-3xl w-full bg-surface shadow-2xl animate-scale-in">
         <div className="absolute inset-0 border-[10px] border-accent m-3 pointer-events-none" />
         <div className="relative p-8 sm:p-14 text-center">
           <div className="flex justify-center mb-6">
@@ -67,17 +67,17 @@ const CertificateView = () => {
           </div>
 
           <p className="text-sm font-bold text-accent uppercase tracking-[0.3em] mb-3">SkillAddis</p>
-          <h1 className="text-3xl sm:text-5xl font-black text-brand uppercase mb-4 tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-ink uppercase mb-4 tracking-tight">
             Certificate of Completion
           </h1>
-          <p className="text-lg text-slate-500 mb-6">This is proudly presented to</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-brand inline-block border-b-2 border-slate-200 pb-2 mb-6 px-6">
+          <p className="text-lg text-ink-muted mb-6">This is proudly presented to</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-ink inline-block border-b-2 border-line pb-2 mb-6 px-6">
             {data.student_name}
           </h2>
-          <p className="text-lg text-slate-600 mb-2">for successfully completing</p>
+          <p className="text-lg text-ink-muted mb-2">for successfully completing</p>
           <h3 className="text-2xl sm:text-3xl font-bold text-accent mb-12">{data.course_title}</h3>
 
-          <div className="flex justify-between items-end text-slate-400 font-mono text-xs sm:text-sm border-t border-slate-100 pt-6">
+          <div className="flex justify-between items-end text-ink-faint font-mono text-xs sm:text-sm border-t border-line pt-6">
             <span>ID: {data.certificate_id}</span>
             <span>Issued: {new Date(data.issued_at).toLocaleDateString()}</span>
           </div>

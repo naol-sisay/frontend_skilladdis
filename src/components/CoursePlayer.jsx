@@ -103,7 +103,7 @@ const CoursePlayer = () => {
         </div>
         <div className="text-center">
           <p className="text-lg font-bold tracking-tight">Loading your classroom…</p>
-          <p className="text-slate-400 text-sm mt-1">Preparing your lessons and materials</p>
+          <p className="text-ink-faint text-sm mt-1">Preparing your lessons and materials</p>
         </div>
         <div className="classroom-loader__bar"><span /></div>
       </div>
@@ -145,22 +145,22 @@ const CoursePlayer = () => {
     });
 
   const Sidebar = (
-    <div className="h-full bg-gradient-to-b from-[#bcccff] via-accent-soft to-accent-softer flex flex-col scroll-slim overflow-y-auto">
+    <div className="h-full bg-gradient-to-b from-[#bcccff] via-accent-soft to-accent-softer dark:from-accent-soft dark:via-accent-softer dark:to-surface flex flex-col scroll-slim overflow-y-auto">
       <div className="p-6 border-b border-accent-soft">
-        <h2 className="text-lg font-extrabold text-brand">Course Content</h2>
-        <p className="text-sm text-slate-400 mt-1 line-clamp-2">{course?.title}</p>
+        <h2 className="text-lg font-extrabold text-ink">Course Content</h2>
+        <p className="text-sm text-ink-faint mt-1 line-clamp-2">{course?.title}</p>
 
         {/* progress card */}
-        <div className="mt-4 rounded-2xl border border-accent-soft bg-white shadow-sm p-4">
+        <div className="mt-4 rounded-2xl border border-accent-soft bg-surface shadow-sm p-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-bold text-brand">Your progress</span>
-            <span className="text-sm font-semibold text-slate-500">{currentIndex + 1} of {total} lessons</span>
+            <span className="text-sm font-bold text-ink">Your progress</span>
+            <span className="text-sm font-semibold text-ink-muted">{currentIndex + 1} of {total} lessons</span>
           </div>
           <div className="mt-3 h-2 bg-accent-soft rounded-full overflow-hidden">
             <div className="h-full bg-accent rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">{progress}% complete</span>
+            <span className="text-xs font-semibold text-ink-muted">{progress}% complete</span>
             <span className="text-xs font-bold text-accent">{progress >= 100 ? "Completed 🎉" : "Keep going! 🎉"}</span>
           </div>
         </div>
@@ -171,7 +171,7 @@ const CoursePlayer = () => {
         {syllabus.map((section, si) => {
           const open = openSections.has(section.section_id);
           return (
-            <div key={section.section_id} className="rounded-2xl border border-accent-soft overflow-hidden bg-white shadow-sm shadow-accent/5">
+            <div key={section.section_id} className="rounded-2xl border border-accent-soft overflow-hidden bg-surface shadow-sm shadow-accent/5">
               <button
                 onClick={() => toggleSection(section.section_id)}
                 className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-accent-softer transition-colors"
@@ -180,9 +180,9 @@ const CoursePlayer = () => {
                   <span className="w-7 h-7 shrink-0 rounded-lg bg-accent-soft text-accent flex items-center justify-center text-xs font-extrabold">
                     {String(si + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-bold text-brand text-sm truncate">{section.title}</span>
+                  <span className="font-bold text-ink text-sm truncate">{section.title}</span>
                 </div>
-                <svg className={`w-4 h-4 shrink-0 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className={`w-4 h-4 shrink-0 text-ink-faint transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -199,14 +199,14 @@ const CoursePlayer = () => {
                           isActive ? "border-accent bg-accent-soft" : "border-transparent hover:bg-accent-softer"
                         }`}
                       >
-                        <span className={`mt-0.5 shrink-0 ${isActive ? "text-accent" : "text-slate-400"}`}>
+                        <span className={`mt-0.5 shrink-0 ${isActive ? "text-accent" : "text-ink-faint"}`}>
                           <LessonIcon type={typeKey(mat)} />
                         </span>
                         <span className="min-w-0">
-                          <span className={`block text-sm font-semibold leading-snug line-clamp-2 ${isActive ? "text-brand" : "text-slate-600"}`}>
+                          <span className={`block text-sm font-semibold leading-snug line-clamp-2 ${isActive ? "text-ink" : "text-ink-muted"}`}>
                             {mat.title}
                           </span>
-                          <span className="block text-xs text-slate-400 mt-0.5">{labelFor(mat)}</span>
+                          <span className="block text-xs text-ink-faint mt-0.5">{labelFor(mat)}</span>
                         </span>
                       </button>
                     );
@@ -223,10 +223,10 @@ const CoursePlayer = () => {
   return (
     <div className="min-h-screen bg-canvas flex flex-col">
       {/* Top bar */}
-      <header className="sticky top-0 z-30 bg-white border-b border-accent-soft flex items-center justify-between px-4 sm:px-6 h-16 shrink-0">
+      <header className="sticky top-0 z-30 bg-surface border-b border-accent-soft flex items-center justify-between px-4 sm:px-6 h-16 shrink-0">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-500 hover:text-brand font-semibold transition-colors"
+          className="flex items-center gap-2 text-ink-muted hover:text-ink font-semibold transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -234,12 +234,12 @@ const CoursePlayer = () => {
           Back
         </button>
 
-        <span className="hidden md:block font-bold text-brand truncate max-w-md">{course?.title}</span>
+        <span className="hidden md:block font-bold text-ink truncate max-w-md">{course?.title}</span>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setDrawerOpen(true)}
-            className="lg:hidden flex items-center gap-2 text-sm font-bold text-brand border border-slate-200 rounded-xl px-3 py-2 hover:bg-slate-50"
+            className="lg:hidden flex items-center gap-2 text-sm font-bold text-ink border border-line rounded-xl px-3 py-2 hover:bg-surface-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -249,7 +249,7 @@ const CoursePlayer = () => {
           <button
             onClick={() => navigate("/my-courses")}
             aria-label="Exit course"
-            className="w-9 h-9 flex items-center justify-center rounded-full text-slate-400 hover:text-brand hover:bg-slate-100 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full text-ink-faint hover:text-ink hover:bg-surface-2 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -260,19 +260,19 @@ const CoursePlayer = () => {
 
       <div className="flex-1 lg:flex min-h-0">
         {/* Desktop sidebar */}
-        <aside className="hidden lg:block w-80 shrink-0 border-r border-accent-soft bg-white h-[calc(100vh-4rem)] sticky top-16 overflow-hidden">
+        <aside className="hidden lg:block w-80 shrink-0 border-r border-accent-soft bg-surface h-[calc(100vh-4rem)] sticky top-16 overflow-hidden">
           {Sidebar}
         </aside>
 
         {/* Mobile drawer */}
         <div
-          className={`lg:hidden fixed inset-0 z-40 transition-opacity duration-300 ${
+          className={`lg:hidden fixed inset-0 z-40 overflow-hidden transition-opacity duration-300 ${
             drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         >
           <div className="absolute inset-0 bg-black/50" onClick={() => setDrawerOpen(false)} />
           <div
-            className={`absolute inset-y-0 left-0 w-80 max-w-[85%] bg-white shadow-2xl transition-transform duration-300 ${
+            className={`absolute inset-y-0 left-0 w-80 max-w-[85%] bg-surface shadow-2xl transition-transform duration-300 ${
               drawerOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
@@ -293,11 +293,11 @@ const CoursePlayer = () => {
                     {labelFor(activeMaterial)}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-brand mb-5">{activeMaterial.title}</h1>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-ink mb-5">{activeMaterial.title}</h1>
 
                 {/* stage */}
                 {isVideo ? (
-                  <div className="rounded-2xl overflow-hidden bg-brand-dark border border-slate-200/70 shadow-xl shadow-slate-900/10">
+                  <div className="rounded-2xl overflow-hidden bg-brand-dark border border-line/70 shadow-xl shadow-slate-900/10">
                     <iframe
                       className="w-full aspect-video"
                       src={getEmbedUrl(activeMaterial.content)}
@@ -306,8 +306,8 @@ const CoursePlayer = () => {
                     />
                   </div>
                 ) : (
-                  <article className="bg-white rounded-2xl border border-slate-100 shadow-sm px-6 py-8 sm:px-12 sm:py-12">
-                    <div className="max-w-[68ch] mx-auto text-slate-700 text-[17px] sm:text-lg leading-8 break-words">
+                  <article className="bg-surface rounded-2xl border border-line shadow-sm px-6 py-8 sm:px-12 sm:py-12">
+                    <div className="max-w-[68ch] mx-auto text-ink text-[17px] sm:text-lg leading-8 break-words">
                       {String(activeMaterial.content || "")
                         .split(/\n{2,}/)
                         .map((para, i) => (
@@ -321,22 +321,22 @@ const CoursePlayer = () => {
 
                 {/* overview card */}
                 {course?.description && (
-                  <div className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 sm:p-7">
-                    <div className="flex gap-2 border-b border-slate-100 pb-3 mb-4">
+                  <div className="mt-6 bg-surface rounded-2xl border border-line p-6 sm:p-7">
+                    <div className="flex gap-2 border-b border-line pb-3 mb-4">
                       <span className="px-4 py-1.5 rounded-lg bg-accent text-white text-sm font-bold">Overview</span>
                     </div>
-                    <h3 className="font-bold text-brand mb-2">About this course</h3>
-                    <p className="text-slate-600 leading-7 whitespace-pre-wrap">{course.description}</p>
+                    <h3 className="font-bold text-ink mb-2">About this course</h3>
+                    <p className="text-ink-muted leading-7 whitespace-pre-wrap">{course.description}</p>
                   </div>
                 )}
 
                 {/* nav footer */}
-                <div className="mt-6 flex items-center justify-between gap-4 bg-white rounded-2xl border border-slate-100 p-4 sm:p-5">
+                <div className="mt-6 flex items-center justify-between gap-4 bg-surface rounded-2xl border border-line p-4 sm:p-5">
                   <button
                     disabled={isFirstLesson}
                     onClick={() => goTo(currentIndex - 1)}
                     className={`inline-flex items-center gap-2 font-bold transition-colors ${
-                      isFirstLesson ? "text-slate-300 cursor-not-allowed" : "text-slate-500 hover:text-brand"
+                      isFirstLesson ? "text-ink-faint cursor-not-allowed" : "text-ink-muted hover:text-ink"
                     }`}
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
@@ -354,7 +354,7 @@ const CoursePlayer = () => {
                   ) : (
                     <button
                       onClick={() => goTo(currentIndex + 1)}
-                      className="inline-flex items-center gap-2 bg-brand text-white px-6 sm:px-8 py-3 rounded-xl font-bold hover:bg-slate-800 active:scale-[0.99] transition-all"
+                      className="inline-flex items-center gap-2 bg-brand text-white px-6 sm:px-8 py-3 rounded-xl font-bold hover:bg-brand-2 active:scale-[0.99] transition-all"
                     >
                       Next lesson
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -363,7 +363,7 @@ const CoursePlayer = () => {
                 </div>
               </div>
             ) : (
-              <div className="text-center mt-20 text-slate-500">Select a lesson to begin.</div>
+              <div className="text-center mt-20 text-ink-muted">Select a lesson to begin.</div>
             )}
           </div>
         </main>

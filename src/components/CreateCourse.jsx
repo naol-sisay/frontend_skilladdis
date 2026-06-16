@@ -160,7 +160,7 @@ const CreateCourse = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-12 mb-20 p-10 bg-white rounded-2xl shadow-xl border border-slate-100">
+    <div className="max-w-4xl mx-auto mt-12 mb-20 p-10 bg-surface rounded-2xl shadow-xl border border-line">
       {/* Global Status Bar */}
       {status.error && (
         <p className="mb-6 p-4 bg-red-50 text-red-600 font-bold rounded-lg text-center">
@@ -178,7 +178,7 @@ const CreateCourse = () => {
         {[1, 2, 3].map((num) => (
           <div
             key={num}
-            className={`flex-1 h-2 rounded ${step >= num ? "bg-accent" : "bg-slate-100"}`}
+            className={`flex-1 h-2 rounded ${step >= num ? "bg-accent" : "bg-surface-2"}`}
           />
         ))}
       </div>
@@ -186,21 +186,21 @@ const CreateCourse = () => {
       {/* --- STEP 1: METADATA --- */}
       {step === 1 && (
         <div className="animate-fade-in">
-          <h2 className="text-3xl font-extrabold text-brand mb-2">
+          <h2 className="text-3xl font-extrabold text-ink mb-2">
             1. Course Metadata
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-ink-muted mb-8">
             Establish the core identity and pricing of your course.
           </p>
 
           <form onSubmit={handleCourseSubmit} className="flex flex-col gap-6">
             <div className="flex gap-4">
               <div className="w-2/3">
-                <label className="block text-sm font-bold text-brand mb-2">
+                <label className="block text-sm font-bold text-ink mb-2">
                   Course Title
                 </label>
                 <input
-                  className="w-full p-4 bg-canvas border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent outline-none"
+                  className="w-full p-4 bg-canvas border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none"
                   type="text"
                   name="title"
                   value={courseData.title}
@@ -209,11 +209,11 @@ const CreateCourse = () => {
                 />
               </div>
               <div className="w-1/3">
-                <label className="block text-sm font-bold text-brand mb-2">
+                <label className="block text-sm font-bold text-ink mb-2">
                   Scope / Level
                 </label>
                 <input
-                  className="w-full p-4 bg-canvas border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent outline-none"
+                  className="w-full p-4 bg-canvas border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none"
                   type="text"
                   name="scope"
                   value={courseData.scope}
@@ -224,11 +224,11 @@ const CreateCourse = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-brand mb-2">
+              <label className="block text-sm font-bold text-ink mb-2">
                 Primary Video URL (YouTube)
               </label>
               <input
-                className="w-full p-4 bg-canvas border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent outline-none"
+                className="w-full p-4 bg-canvas border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none"
                 type="url"
                 name="video_url"
                 value={courseData.video_url}
@@ -239,11 +239,11 @@ const CreateCourse = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-brand mb-2">
+              <label className="block text-sm font-bold text-ink mb-2">
                 Public Description
               </label>
               <textarea
-                className="w-full p-4 bg-canvas border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent outline-none"
+                className="w-full p-4 bg-canvas border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none"
                 name="description"
                 value={courseData.description}
                 rows="3"
@@ -255,7 +255,7 @@ const CreateCourse = () => {
             <button
               type="submit"
               disabled={status.loading}
-              className="w-full mt-4 p-4 bg-brand text-white text-lg font-bold rounded-lg hover:bg-slate-800 transition shadow-md disabled:opacity-50"
+              className="w-full mt-4 p-4 bg-brand text-white text-lg font-bold rounded-lg hover:bg-brand-2 transition shadow-md disabled:opacity-50"
             >
               Create Course & Proceed &rarr;
             </button>
@@ -266,10 +266,10 @@ const CreateCourse = () => {
       {/* --- STEP 2: CURRICULUM BUILDER --- */}
       {step === 2 && (
         <div className="animate-fade-in">
-          <h2 className="text-3xl font-extrabold text-brand mb-2">
+          <h2 className="text-3xl font-extrabold text-ink mb-2">
             2. Build Curriculum
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-ink-muted mb-8">
             Structure your course into sections and attach videos or study
             notes.
           </p>
@@ -278,10 +278,10 @@ const CreateCourse = () => {
             {syllabus.map((section, sIdx) => (
               <div
                 key={sIdx}
-                className="bg-canvas p-6 rounded-xl border border-gray-200"
+                className="bg-canvas p-6 rounded-xl border border-line"
               >
                 <div className="mb-4">
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
+                  <label className="block text-xs font-bold text-ink-muted uppercase mb-1">
                     Section {sIdx + 1} Title
                   </label>
                   <input
@@ -290,18 +290,18 @@ const CreateCourse = () => {
                     onChange={(e) => updateSectionTitle(sIdx, e.target.value)}
                     required
                     placeholder="e.g., Introduction to Basics"
-                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent outline-none font-bold"
+                    className="w-full p-3 border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none font-bold"
                   />
                 </div>
 
-                <div className="pl-6 border-l-2 border-slate-200 space-y-4">
+                <div className="pl-6 border-l-2 border-line space-y-4">
                   {section.materials.map((mat, mIdx) => (
                     <div
                       key={mIdx}
-                      className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex gap-4"
+                      className="bg-surface p-4 rounded-lg border border-line shadow-sm flex gap-4"
                     >
                       <div className="w-1/4">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">
+                        <label className="block text-xs font-bold text-ink-muted mb-1">
                           Type
                         </label>
                         <select
@@ -309,14 +309,14 @@ const CreateCourse = () => {
                           onChange={(e) =>
                             updateMaterial(sIdx, mIdx, "type", e.target.value)
                           }
-                          className="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-accent outline-none text-sm"
+                          className="w-full p-2 border border-line rounded focus:ring-2 focus:ring-accent outline-none text-sm"
                         >
                           <option value="video">Video</option>
                           <option value="note">Study Note</option>
                         </select>
                       </div>
                       <div className="w-1/3">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">
+                        <label className="block text-xs font-bold text-ink-muted mb-1">
                           Title
                         </label>
                         <input
@@ -326,11 +326,11 @@ const CreateCourse = () => {
                             updateMaterial(sIdx, mIdx, "title", e.target.value)
                           }
                           placeholder="Lesson name..."
-                          className="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-accent outline-none text-sm"
+                          className="w-full p-2 border border-line rounded focus:ring-2 focus:ring-accent outline-none text-sm"
                         />
                       </div>
                       <div className="w-full flex-1">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">
+                        <label className="block text-xs font-bold text-ink-muted mb-1">
                           Content (URL or Text)
                         </label>
                         {mat.type === "video" ? (
@@ -346,7 +346,7 @@ const CreateCourse = () => {
                               )
                             }
                             placeholder="https://youtube.com/..."
-                            className="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-accent outline-none text-sm"
+                            className="w-full p-2 border border-line rounded focus:ring-2 focus:ring-accent outline-none text-sm"
                           />
                         ) : (
                           <textarea
@@ -361,7 +361,7 @@ const CreateCourse = () => {
                             }
                             placeholder="Enter study notes here..."
                             rows="1"
-                            className="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-accent outline-none text-sm"
+                            className="w-full p-2 border border-line rounded focus:ring-2 focus:ring-accent outline-none text-sm"
                           />
                         )}
                       </div>
@@ -378,17 +378,17 @@ const CreateCourse = () => {
             ))}
           </div>
 
-          <div className="mt-6 flex justify-between items-center border-t border-slate-200 pt-6">
+          <div className="mt-6 flex justify-between items-center border-t border-line pt-6">
             <button
               onClick={addSection}
-              className="px-6 py-3 bg-slate-100 text-slate-700 font-bold rounded-lg hover:bg-slate-200 transition"
+              className="px-6 py-3 bg-surface-2 text-ink font-bold rounded-lg hover:bg-surface-2 transition"
             >
               + Add New Section
             </button>
             <button
               onClick={handleSyllabusSubmit}
               disabled={status.loading}
-              className="px-8 py-3 bg-brand text-white font-bold rounded-lg hover:bg-slate-800 transition shadow-md"
+              className="px-8 py-3 bg-brand text-white font-bold rounded-lg hover:bg-brand-2 transition shadow-md"
             >
               Save Curriculum & Proceed &rarr;
             </button>
@@ -400,7 +400,7 @@ const CreateCourse = () => {
       {step === 3 && (
         <div className="animate-fade-in">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-extrabold text-brand">
+            <h2 className="text-3xl font-extrabold text-ink">
               3. Certification Exam
             </h2>
             <span className="bg-green-100 text-green-800 px-4 py-2 rounded-lg font-black text-xl">
@@ -410,10 +410,10 @@ const CreateCourse = () => {
 
           <form
             onSubmit={handleAddQuestion}
-            className="flex flex-col gap-6 bg-canvas p-6 rounded-xl border border-gray-200"
+            className="flex flex-col gap-6 bg-canvas p-6 rounded-xl border border-line"
           >
             <div>
-              <label className="block text-sm font-bold text-brand mb-2">
+              <label className="block text-sm font-bold text-ink mb-2">
                 Question Text
               </label>
               <textarea
@@ -426,7 +426,7 @@ const CreateCourse = () => {
                     question_text: e.target.value,
                   })
                 }
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent outline-none bg-white"
+                className="w-full p-3 border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none bg-surface"
                 rows="2"
               />
             </div>
@@ -434,7 +434,7 @@ const CreateCourse = () => {
             <div className="grid grid-cols-2 gap-4">
               {["a", "b", "c", "d"].map((letter) => (
                 <div key={letter}>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
+                  <label className="block text-xs font-bold text-ink-muted uppercase mb-1">
                     Option {letter}
                   </label>
                   <input
@@ -448,14 +448,14 @@ const CreateCourse = () => {
                         [`option_${letter}`]: e.target.value,
                       })
                     }
-                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent outline-none bg-white"
+                    className="w-full p-3 border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none bg-surface"
                   />
                 </div>
               ))}
             </div>
 
-            <div className="bg-white p-4 rounded-lg border border-slate-200 flex items-center justify-between mt-2">
-              <label className="text-sm font-bold text-brand">
+            <div className="bg-surface p-4 rounded-lg border border-line flex items-center justify-between mt-2">
+              <label className="text-sm font-bold text-ink">
                 Correct Answer:
               </label>
               <select
@@ -467,7 +467,7 @@ const CreateCourse = () => {
                     correct_option: e.target.value,
                   })
                 }
-                className="p-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-accent outline-none w-48"
+                className="p-2 border border-line rounded-lg font-bold focus:ring-2 focus:ring-accent outline-none w-48"
               >
                 <option value="option_a">Option A</option>
                 <option value="option_b">Option B</option>
@@ -485,7 +485,7 @@ const CreateCourse = () => {
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-slate-200 text-center">
+          <div className="mt-8 pt-6 border-t border-line text-center">
             <button
               onClick={() =>
                 navigate("/dashboard", {
@@ -495,7 +495,7 @@ const CreateCourse = () => {
                   },
                 })
               }
-              className="w-full bg-brand text-white p-4 text-lg font-bold rounded-lg hover:bg-slate-800 transition shadow-md"
+              className="w-full bg-brand text-white p-4 text-lg font-bold rounded-lg hover:bg-brand-2 transition shadow-md"
             >
               Finish & Publish Entire Course
             </button>

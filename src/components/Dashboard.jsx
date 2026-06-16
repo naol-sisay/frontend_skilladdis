@@ -12,11 +12,11 @@ const StatCard = ({ label, value, icon, onClick, hint }) => {
   return (
     <Tag
       onClick={onClick}
-      className={`bg-white border border-slate-100 rounded-2xl p-5 card-lift text-left w-full block ${
+      className={`bg-surface border border-line rounded-2xl p-5 card-lift text-left w-full block ${
         onClick ? "cursor-pointer hover:border-accent/40 group" : ""
       }`}
     >
-      <div className="flex items-center justify-between text-slate-400 mb-3">
+      <div className="flex items-center justify-between text-ink-faint mb-3">
         <span className="text-sm font-semibold">{label}</span>
         <span className="text-accent">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -24,9 +24,9 @@ const StatCard = ({ label, value, icon, onClick, hint }) => {
           </svg>
         </span>
       </div>
-      <div className="text-4xl font-extrabold text-brand">{value}</div>
+      <div className="text-4xl font-extrabold text-ink">{value}</div>
       {onClick && (
-        <div className="mt-2 flex items-center gap-1 text-sm font-semibold text-slate-400 group-hover:text-accent transition-colors">
+        <div className="mt-2 flex items-center gap-1 text-sm font-semibold text-ink-faint group-hover:text-accent transition-colors">
           {hint || "View"}
           <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -40,7 +40,7 @@ const StatCard = ({ label, value, icon, onClick, hint }) => {
 const CourseRow = ({ course, onClick }) => (
   <button
     onClick={onClick}
-    className="w-full flex items-center gap-4 p-4 rounded-xl border border-slate-100 hover:border-accent/40 hover:bg-accent-softer transition-colors text-left group"
+    className="w-full flex items-center gap-4 p-4 rounded-xl border border-line hover:border-accent/40 hover:bg-accent-softer transition-colors text-left group"
   >
     <span className="w-11 h-11 rounded-xl bg-accent-soft text-accent flex items-center justify-center shrink-0">
       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -48,10 +48,10 @@ const CourseRow = ({ course, onClick }) => (
       </svg>
     </span>
     <div className="min-w-0 flex-1">
-      <p className="font-bold text-brand truncate">{course.title}</p>
-      <p className="text-sm text-slate-400">{course.category || "General"}</p>
+      <p className="font-bold text-ink truncate">{course.title}</p>
+      <p className="text-sm text-ink-faint">{course.category || "General"}</p>
     </div>
-    <svg className="w-5 h-5 text-slate-300 group-hover:text-accent group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 text-ink-faint group-hover:text-accent group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
     </svg>
   </button>
@@ -63,7 +63,7 @@ const Btn = ({ children, onClick, variant = "primary" }) => (
     className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all active:scale-[0.99] ${
       variant === "primary"
         ? "bg-accent text-white glow-accent hover:bg-accent-strong"
-        : "bg-white border border-slate-200 text-brand hover:bg-slate-50"
+        : "bg-surface border border-line text-ink hover:bg-surface-2"
     }`}
   >
     {children}
@@ -86,13 +86,13 @@ const StudentDashboard = ({ name, stats, photo }) => {
     <div className="p-6 sm:p-10 max-w-6xl mx-auto w-full">
       {/* header */}
       <div className="grid lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-white via-white to-accent-softer border border-slate-100 rounded-2xl p-8">
+        <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-surface via-surface to-accent-softer border border-line rounded-2xl p-8">
           <span className="inline-flex items-center gap-1.5 mb-3 text-xs font-bold uppercase tracking-wider text-accent">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             Student dashboard
           </span>
-          <h1 className="text-5xl font-extrabold text-brand">Welcome</h1>
-          <p className="mt-3 text-slate-500 max-w-md">
+          <h1 className="text-5xl font-extrabold text-ink">Welcome</h1>
+          <p className="mt-3 text-ink-muted max-w-md">
             Review enrolled courses, course status, and available catalog options.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -108,7 +108,7 @@ const StudentDashboard = ({ name, stats, photo }) => {
           onClick={() => navigate("/profile")}
           className="bg-brand text-white rounded-2xl p-7 flex flex-col justify-between text-left card-lift cursor-pointer"
         >
-          <div className="flex items-center justify-between text-slate-400">
+          <div className="flex items-center justify-between text-ink-faint">
             <span className="text-sm font-semibold">Your account</span>
             <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 17l6-6 4 4 8-8" /></svg>
           </div>
@@ -116,7 +116,7 @@ const StudentDashboard = ({ name, stats, photo }) => {
             <Avatar name={name} src={photo} size={56} ring />
             <div className="min-w-0">
               <p className="text-2xl font-extrabold truncate">{name}</p>
-              <p className="text-slate-400 mt-0.5">
+              <p className="text-ink-faint mt-0.5">
                 {enrolled.length ? `${enrolled.length} enrolled course${enrolled.length > 1 ? "s" : ""}` : "No active enrollments"}
               </p>
             </div>
@@ -134,16 +134,16 @@ const StudentDashboard = ({ name, stats, photo }) => {
       {/* lists */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-extrabold text-brand">Enrolled Courses</h2>
-          <button onClick={() => navigate("/my-courses")} className="text-sm font-bold text-brand border border-slate-200 rounded-lg px-4 py-2 hover:bg-slate-50">View all</button>
+          <h2 className="text-2xl font-extrabold text-ink">Enrolled Courses</h2>
+          <button onClick={() => navigate("/my-courses")} className="text-sm font-bold text-ink border border-line rounded-lg px-4 py-2 hover:bg-surface-2">View all</button>
         </div>
         {enrolled.length === 0 ? (
-          <div className="bg-white border border-slate-100 rounded-2xl p-10 text-center">
+          <div className="bg-surface border border-line rounded-2xl p-10 text-center">
             <div className="w-12 h-12 mx-auto rounded-xl bg-accent-soft text-accent flex items-center justify-center mb-4">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" /></svg>
             </div>
-            <p className="font-bold text-brand text-lg mb-1">No enrolled courses</p>
-            <p className="text-slate-400 mb-6">Enrolled courses will appear here.</p>
+            <p className="font-bold text-ink text-lg mb-1">No enrolled courses</p>
+            <p className="text-ink-faint mb-6">Enrolled courses will appear here.</p>
             <Btn onClick={() => navigate("/catalog")}>Explore courses</Btn>
           </div>
         ) : (
@@ -166,13 +166,13 @@ const InstructorDashboard = ({ name, stats, photo }) => {
   return (
     <div className="p-6 sm:p-10 max-w-6xl mx-auto w-full">
       <div className="grid lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-white via-white to-accent-softer border border-slate-100 rounded-2xl p-8">
+        <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-surface via-surface to-accent-softer border border-line rounded-2xl p-8">
           <span className="inline-flex items-center gap-1.5 mb-3 text-xs font-bold uppercase tracking-wider text-accent">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             Instructor dashboard
           </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-brand leading-tight break-words">Welcome back, {name}</h1>
-          <p className="mt-3 text-slate-500 max-w-md">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-ink leading-tight break-words">Welcome back, {name}</h1>
+          <p className="mt-3 text-ink-muted max-w-md">
             Manage your course content, pricing, lesson structure, and student-facing details from one place.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -188,7 +188,7 @@ const InstructorDashboard = ({ name, stats, photo }) => {
           onClick={() => navigate("/profile")}
           className="bg-brand text-white rounded-2xl p-7 flex flex-col justify-between text-left card-lift cursor-pointer"
         >
-          <div className="flex items-center justify-between text-slate-400">
+          <div className="flex items-center justify-between text-ink-faint">
             <span className="text-sm font-semibold">Instructor workspace</span>
             <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
@@ -196,21 +196,21 @@ const InstructorDashboard = ({ name, stats, photo }) => {
             <Avatar name={name} src={photo} size={56} ring />
             <div className="min-w-0">
               <p className="text-2xl font-extrabold truncate">{name}</p>
-              <p className="text-slate-400 mt-0.5">{stats.courses_published ?? 0} published course{(stats.courses_published ?? 0) === 1 ? "" : "s"}</p>
+              <p className="text-ink-faint mt-0.5">{stats.courses_published ?? 0} published course{(stats.courses_published ?? 0) === 1 ? "" : "s"}</p>
             </div>
           </div>
         </button>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-6">
-        <div className="bg-white border border-slate-100 rounded-2xl p-8 card-lift">
-          <h2 className="text-xl font-bold text-brand mb-2">Manage your courses</h2>
-          <p className="text-slate-500 mb-6">Review every course you've published, with status, pricing, and what still needs attention.</p>
+        <div className="bg-surface border border-line rounded-2xl p-8 card-lift">
+          <h2 className="text-xl font-bold text-ink mb-2">Manage your courses</h2>
+          <p className="text-ink-muted mb-6">Review every course you've published, with status, pricing, and what still needs attention.</p>
           <Btn onClick={() => navigate("/instructor/courses")}>Open My Courses</Btn>
         </div>
-        <div className="bg-white border border-slate-100 rounded-2xl p-8 card-lift">
-          <h2 className="text-xl font-bold text-brand mb-2">Add new material</h2>
-          <p className="text-slate-500 mb-6">Draft a course, build the curriculum, and publish it to the catalog.</p>
+        <div className="bg-surface border border-line rounded-2xl p-8 card-lift">
+          <h2 className="text-xl font-bold text-ink mb-2">Add new material</h2>
+          <p className="text-ink-muted mb-6">Draft a course, build the curriculum, and publish it to the catalog.</p>
           <Btn variant="ghost" onClick={() => navigate("/create-course")}>Create a course</Btn>
         </div>
       </div>

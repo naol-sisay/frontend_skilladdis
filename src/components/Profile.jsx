@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api, { resolveAsset } from "../api/axios";
+import { getTheme, applyTheme } from "../theme";
 
 const initials = (name = "") => {
   const p = name.trim().split(/\s+/).filter(Boolean);
@@ -10,10 +11,10 @@ const initials = (name = "") => {
 
 const Field = ({ label, icon, children }) => (
   <div>
-    <label className="block text-sm font-bold text-brand mb-2">{label}</label>
+    <label className="block text-sm font-bold text-ink mb-2">{label}</label>
     <div className="relative">
       {icon && (
-        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
           </svg>
@@ -40,6 +41,9 @@ const Profile = () => {
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState(null);
   const [form, setForm] = useState({ full_name: "", headline: "", phone: "", location: "", bio: "" });
+  const [theme, setTheme] = useState(getTheme);
+
+  const chooseTheme = (t) => setTheme(applyTheme(t));
 
   const flash = (type, text) => {
     setToast({ type, text });
@@ -98,7 +102,7 @@ const Profile = () => {
     }
   };
 
-  const input = "w-full p-3.5 pl-11 bg-canvas border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-brand font-medium placeholder:text-slate-400";
+  const input = "w-full p-3.5 pl-11 bg-canvas border border-line rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-ink font-medium placeholder:text-ink-faint";
 
   if (loading) {
     return (
@@ -132,9 +136,9 @@ const Profile = () => {
         </div>
       )}
 
-      <div className="bg-white border border-slate-100 rounded-2xl p-8 mb-8">
-        <h1 className="text-4xl font-extrabold text-brand">Profile settings</h1>
-        <p className="mt-3 text-slate-500 max-w-2xl">
+      <div className="bg-surface border border-line rounded-2xl p-8 mb-8">
+        <h1 className="text-4xl font-extrabold text-ink">Profile settings</h1>
+        <p className="mt-3 text-ink-muted max-w-2xl">
           Keep your account details current for course access, records, and platform communication.
         </p>
       </div>
@@ -142,7 +146,7 @@ const Profile = () => {
       <form onSubmit={save} className="grid lg:grid-cols-3 gap-8 items-start">
         {/* left column */}
         <div className="space-y-6">
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
+          <div className="bg-surface border border-line rounded-2xl p-6">
             <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden bg-brand flex items-center justify-center text-white text-5xl font-extrabold" style={{ fontFamily: "var(--font-display)" }}>
               {avatarUrl ? <img src={avatarUrl} alt={user.full_name} className="w-full h-full object-cover" /> : initials(user.full_name)}
             </div>
@@ -164,22 +168,22 @@ const Profile = () => {
 
             <div className="mt-6">
               <div className="flex justify-between text-sm mb-2">
-                <span className="font-bold text-brand">Profile completion</span>
+                <span className="font-bold text-ink">Profile completion</span>
                 <span className="font-extrabold text-accent">{completion}%</span>
               </div>
-              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div className="h-2 bg-surface-2 rounded-full overflow-hidden">
                 <div className="h-full bg-accent rounded-full transition-all duration-500" style={{ width: `${completion}%` }} />
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
-            <p className="font-bold text-brand mb-4">Completion checklist</p>
+          <div className="bg-surface border border-line rounded-2xl p-6">
+            <p className="font-bold text-ink mb-4">Completion checklist</p>
             <div className="space-y-2.5">
               {checklist.map((c) => (
-                <div key={c.label} className="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50">
-                  <span className="font-semibold text-slate-600">{c.label}</span>
-                  <span className={c.done ? "text-green-600" : "text-slate-300"}>
+                <div key={c.label} className="flex items-center justify-between px-4 py-3 rounded-xl bg-surface-2">
+                  <span className="font-semibold text-ink-muted">{c.label}</span>
+                  <span className={c.done ? "text-green-600" : "text-ink-faint"}>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d={c.done ? "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" : "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"} />
                     </svg>
@@ -189,9 +193,38 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
-            <p className="font-bold text-brand mb-1">Sign out</p>
-            <p className="text-sm text-slate-400 mb-4">End your session on this device.</p>
+          <div className="bg-surface border border-line rounded-2xl p-6">
+            <p className="font-bold text-ink mb-1">Appearance</p>
+            <p className="text-sm text-ink-faint mb-4">Choose how SkillAddis looks on this device.</p>
+            <div className="grid grid-cols-2 gap-2 p-1 rounded-xl bg-surface-2 border border-line">
+              {[
+                { key: "light", label: "Light", d: "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" },
+                { key: "dark", label: "Dark", d: "M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" },
+              ].map((opt) => {
+                const active = theme === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => chooseTheme(opt.key)}
+                    aria-pressed={active}
+                    className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+                      active ? "bg-accent text-white glow-accent" : "text-ink-muted hover:text-ink"
+                    }`}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={opt.d} />
+                    </svg>
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="bg-surface border border-line rounded-2xl p-6">
+            <p className="font-bold text-ink mb-1">Sign out</p>
+            <p className="text-sm text-ink-faint mb-4">End your session on this device.</p>
             <button
               type="button"
               onClick={logout}
@@ -206,13 +239,13 @@ const Profile = () => {
         </div>
 
         {/* right column — form */}
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-2xl p-6 sm:p-8">
+        <div className="lg:col-span-2 bg-surface border border-line rounded-2xl p-6 sm:p-8">
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Full name" icon={ICON.user}>
               <input className={input} value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} placeholder="Your name" />
             </Field>
             <Field label="Email address" icon={ICON.mail}>
-              <input className={input + " bg-slate-100 text-slate-500 cursor-not-allowed"} value={user.email} readOnly />
+              <input className={input + " bg-surface-2 text-ink-muted cursor-not-allowed"} value={user.email} readOnly />
             </Field>
             <div className="sm:col-span-2">
               <Field label="Professional headline">

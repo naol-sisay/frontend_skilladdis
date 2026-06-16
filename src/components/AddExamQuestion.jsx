@@ -51,11 +51,11 @@ const AddExamQuestion = () => {
 
     return (
         <div className="min-h-screen bg-canvas py-12 px-4 sm:px-6">
-            <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-                
-                <div className="flex justify-between items-center mb-8 border-b border-slate-200 pb-4">
-                    <h1 className="text-2xl font-bold text-brand">Add Exam Question</h1>
-                    <span className="bg-slate-100 text-slate-600 px-3 py-1 rounded-md font-mono text-sm">
+            <div className="max-w-3xl mx-auto bg-surface p-8 rounded-2xl shadow-sm border border-line">
+
+                <div className="flex justify-between items-center mb-8 border-b border-line pb-4">
+                    <h1 className="text-2xl font-bold text-ink">Add Exam Question</h1>
+                    <span className="bg-surface-2 text-ink-muted px-3 py-1 rounded-md font-mono text-sm">
                         Exam ID: {examId}
                     </span>
                 </div>
@@ -65,13 +65,13 @@ const AddExamQuestion = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Question Text</label>
+                        <label className="block text-sm font-bold text-ink mb-2">Question Text</label>
                         <textarea 
                             name="question_text"
                             value={formData.question_text}
                             onChange={handleChange}
                             required
-                            className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none"
+                            className="w-full p-4 border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none"
                             rows="3"
                             placeholder="e.g., What does API stand for?"
                         />
@@ -80,7 +80,7 @@ const AddExamQuestion = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {['a', 'b', 'c', 'd'].map((letter) => (
                             <div key={letter}>
-                                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase">
+                                <label className="block text-sm font-bold text-ink mb-2 uppercase">
                                     Option {letter}
                                 </label>
                                 <input 
@@ -89,20 +89,20 @@ const AddExamQuestion = () => {
                                     value={formData[`option_${letter}`]}
                                     onChange={handleChange}
                                     required={letter === 'a' || letter === 'b'} // Force at least A and B
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent outline-none"
+                                    className="w-full p-3 border border-line rounded-lg focus:ring-2 focus:ring-accent outline-none"
                                     placeholder={`Answer ${letter.toUpperCase()}`}
                                 />
                             </div>
                         ))}
                     </div>
 
-                    <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mt-6">
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Select Correct Answer</label>
+                    <div className="bg-surface-2 p-6 rounded-xl border border-line mt-6">
+                        <label className="block text-sm font-bold text-ink mb-2">Select Correct Answer</label>
                         <select 
                             name="correct_option"
                             value={formData.correct_option}
                             onChange={handleChange}
-                            className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-accent outline-none font-bold"
+                            className="w-full p-3 border border-line rounded-lg bg-surface focus:ring-2 focus:ring-accent outline-none font-bold"
                         >
                             <option value="option_a">Option A</option>
                             <option value="option_b">Option B</option>
@@ -111,18 +111,18 @@ const AddExamQuestion = () => {
                         </select>
                     </div>
 
-                    <div className="flex justify-end gap-4 pt-6 border-t border-slate-200">
+                    <div className="flex justify-end gap-4 pt-6 border-t border-line">
                         <button 
                             type="button"
                             onClick={() => navigate('/dashboard')}
-                            className="px-6 py-3 font-bold text-slate-500 hover:text-slate-800 transition"
+                            className="px-6 py-3 font-bold text-ink-muted hover:text-ink transition"
                         >
                             Cancel
                         </button>
                         <button 
                             type="submit"
                             disabled={status.loading}
-                            className="bg-brand text-white px-8 py-3 rounded-lg font-bold hover:bg-slate-800 disabled:opacity-50 transition"
+                            className="bg-brand text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-2 disabled:opacity-50 transition"
                         >
                             {status.loading ? "Saving..." : "Save Question"}
                         </button>

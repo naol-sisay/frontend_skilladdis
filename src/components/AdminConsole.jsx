@@ -24,7 +24,7 @@ const statusStyle = {
   approved: "bg-green-100 text-green-700",
   pending_approval: "bg-amber-100 text-amber-700",
   rejected: "bg-red-100 text-red-700",
-  archived: "bg-slate-200 text-slate-600",
+  archived: "bg-surface-2 text-ink-muted",
 };
 
 /* ------------------------------- Login ------------------------------- */
@@ -54,20 +54,20 @@ const AdminLogin = ({ onAuthed }) => {
   };
 
   const input =
-    "w-full p-3.5 bg-canvas border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-brand font-medium placeholder:text-slate-400";
+    "w-full p-3.5 bg-canvas border border-line rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none transition text-ink font-medium placeholder:text-ink-faint";
 
   return (
     <div className="min-h-screen bg-brand flex items-center justify-center px-6">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 glow-accent-lg">
+        <div className="bg-surface rounded-3xl shadow-2xl p-8 glow-accent-lg">
           <div className="flex flex-col items-center text-center mb-7">
             <div className="w-14 h-14 rounded-2xl bg-accent-soft text-accent flex items-center justify-center mb-4">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h1 className="text-2xl font-extrabold text-brand">Admin Console</h1>
-            <p className="text-slate-500 mt-1 text-sm">Restricted access. Authorized staff only.</p>
+            <h1 className="text-2xl font-extrabold text-ink">Admin Console</h1>
+            <p className="text-ink-muted mt-1 text-sm">Restricted access. Authorized staff only.</p>
           </div>
 
           <form onSubmit={submit} className="flex flex-col gap-4">
@@ -106,9 +106,9 @@ const AdminLogin = ({ onAuthed }) => {
 
 /* ---------------------------- Stat card ------------------------------ */
 const Stat = ({ label, value, tone = "brand" }) => (
-  <div className="bg-white border border-slate-100 rounded-2xl p-5">
-    <p className="text-sm font-semibold text-slate-400">{label}</p>
-    <p className={`text-3xl font-extrabold mt-1 ${tone === "accent" ? "text-accent" : "text-brand"}`}>{value}</p>
+  <div className="bg-surface border border-line rounded-2xl p-5">
+    <p className="text-sm font-semibold text-ink-faint">{label}</p>
+    <p className={`text-3xl font-extrabold mt-1 ${tone === "accent" ? "text-accent" : "text-ink"}`}>{value}</p>
   </div>
 );
 
@@ -134,7 +134,7 @@ const DangerButton = ({ onConfirm, label = "Remove", busy }) => {
       >
         {busy ? "…" : "Confirm"}
       </button>
-      <button onClick={() => setArmed(false)} className="text-sm font-semibold text-slate-500 px-2 py-1.5">
+      <button onClick={() => setArmed(false)} className="text-sm font-semibold text-ink-muted px-2 py-1.5">
         Cancel
       </button>
     </span>
@@ -198,19 +198,19 @@ const UsersTab = ({ notify }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name or email…"
-          className="flex-1 p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-accent text-brand"
+          className="flex-1 p-3 bg-surface border border-line rounded-xl outline-none focus:ring-2 focus:ring-accent text-ink"
         />
-        <button className="px-5 bg-brand text-white font-bold rounded-xl hover:bg-slate-800">Search</button>
+        <button className="px-5 bg-brand text-white font-bold rounded-xl hover:bg-brand-2">Search</button>
       </form>
 
       {loading ? (
-        <p className="text-slate-400">Loading users…</p>
+        <p className="text-ink-faint">Loading users…</p>
       ) : users.length === 0 ? (
-        <p className="text-slate-400">No users found.</p>
+        <p className="text-ink-faint">No users found.</p>
       ) : (
-        <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden overflow-x-auto">
+        <div className="bg-surface border border-line rounded-2xl overflow-hidden overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-slate-500">
+            <thead className="bg-surface-2 text-ink-muted">
               <tr>
                 <th className="p-4 font-bold">User</th>
                 <th className="p-4 font-bold">Role</th>
@@ -221,25 +221,25 @@ const UsersTab = ({ notify }) => {
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.user_id} className="border-t border-slate-100">
+                <tr key={u.user_id} className="border-t border-line">
                   <td className="p-4">
-                    <p className="font-bold text-brand">{u.full_name}</p>
-                    <p className="text-slate-400">{u.email}</p>
+                    <p className="font-bold text-ink">{u.full_name}</p>
+                    <p className="text-ink-faint">{u.email}</p>
                   </td>
                   <td className="p-4">
                     <select
                       value={u.role}
                       disabled={busyId === u.user_id}
                       onChange={(e) => changeRole(u.user_id, e.target.value)}
-                      className="border border-slate-200 rounded-lg px-2 py-1.5 font-semibold text-brand bg-white capitalize"
+                      className="border border-line rounded-lg px-2 py-1.5 font-semibold text-ink bg-surface capitalize"
                     >
                       {ROLES.map((r) => (
                         <option key={r} value={r}>{r}</option>
                       ))}
                     </select>
                   </td>
-                  <td className="p-4 hidden sm:table-cell text-slate-600">{u.courses_count}</td>
-                  <td className="p-4 hidden sm:table-cell text-slate-600">{u.enrollments_count}</td>
+                  <td className="p-4 hidden sm:table-cell text-ink-muted">{u.courses_count}</td>
+                  <td className="p-4 hidden sm:table-cell text-ink-muted">{u.enrollments_count}</td>
                   <td className="p-4 text-right">
                     <DangerButton onConfirm={() => remove(u.user_id)} busy={busyId === u.user_id} />
                   </td>
@@ -264,7 +264,7 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
     description: course.description || "",
   });
   const [saving, setSaving] = useState(false);
-  const field = "w-full p-3 bg-canvas border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-accent text-brand";
+  const field = "w-full p-3 bg-canvas border border-line rounded-xl outline-none focus:ring-2 focus:ring-accent text-ink";
 
   const save = async () => {
     setSaving(true);
@@ -282,29 +282,29 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
-        <h3 className="text-xl font-extrabold text-brand mb-5">Edit course</h3>
+      <div className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
+        <h3 className="text-xl font-extrabold text-ink mb-5">Edit course</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-brand mb-1.5">Title</label>
+            <label className="block text-sm font-bold text-ink mb-1.5">Title</label>
             <input className={field} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-brand mb-1.5">Category</label>
+              <label className="block text-sm font-bold text-ink mb-1.5">Category</label>
               <input className={field} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
             </div>
             <div>
-              <label className="block text-sm font-bold text-brand mb-1.5">Price (ETB)</label>
+              <label className="block text-sm font-bold text-ink mb-1.5">Price (ETB)</label>
               <input type="number" min="0" className={field} value={form.price_etb} onChange={(e) => setForm({ ...form, price_etb: e.target.value })} />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-brand mb-1.5">Scope / Level</label>
+            <label className="block text-sm font-bold text-ink mb-1.5">Scope / Level</label>
             <input className={field} value={form.scope} onChange={(e) => setForm({ ...form, scope: e.target.value })} />
           </div>
           <div>
-            <label className="block text-sm font-bold text-brand mb-1.5">Status</label>
+            <label className="block text-sm font-bold text-ink mb-1.5">Status</label>
             <select className={field} value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
               {STATUSES.map((s) => (
                 <option key={s} value={s}>{s.replace("_", " ")}</option>
@@ -312,12 +312,12 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-bold text-brand mb-1.5">Description</label>
+            <label className="block text-sm font-bold text-ink mb-1.5">Description</label>
             <textarea rows={4} className={field} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           </div>
         </div>
         <div className="flex justify-end gap-3 mt-6">
-          <button onClick={onClose} className="px-5 py-2.5 font-bold text-slate-500 hover:text-brand">Cancel</button>
+          <button onClick={onClose} className="px-5 py-2.5 font-bold text-ink-muted hover:text-ink">Cancel</button>
           <button onClick={save} disabled={saving} className="px-6 py-2.5 bg-accent text-white font-bold rounded-xl glow-accent hover:bg-accent-strong disabled:opacity-60">
             {saving ? "Saving…" : "Save changes"}
           </button>
@@ -335,7 +335,7 @@ const CurriculumEditModal = ({ course, onClose, notify }) => {
   const [syllabus, setSyllabus] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const field = "w-full p-2.5 bg-canvas border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-accent text-brand text-sm";
+  const field = "w-full p-2.5 bg-canvas border border-line rounded-lg outline-none focus:ring-2 focus:ring-accent text-ink text-sm";
 
   useEffect(() => {
     let active = true;
@@ -399,21 +399,21 @@ const CurriculumEditModal = ({ course, onClose, notify }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6">
+      <div className="relative bg-surface rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6">
         <div className="flex items-start justify-between mb-1">
-          <h3 className="text-xl font-extrabold text-brand">Edit curriculum</h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-brand text-2xl leading-none">&times;</button>
+          <h3 className="text-xl font-extrabold text-ink">Edit curriculum</h3>
+          <button onClick={onClose} className="text-ink-faint hover:text-ink text-2xl leading-none">&times;</button>
         </div>
-        <p className="text-sm text-slate-400 mb-5 truncate">{course.title}</p>
+        <p className="text-sm text-ink-faint mb-5 truncate">{course.title}</p>
 
         {loading ? (
-          <p className="text-slate-400 py-10 text-center">Loading curriculum…</p>
+          <p className="text-ink-faint py-10 text-center">Loading curriculum…</p>
         ) : (
           <div className="space-y-5">
             {syllabus.map((section, sIdx) => (
-              <div key={sIdx} className="bg-canvas border border-slate-200 rounded-xl p-4">
+              <div key={sIdx} className="bg-canvas border border-line rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-bold text-slate-400 shrink-0">#{sIdx + 1}</span>
+                  <span className="text-xs font-bold text-ink-faint shrink-0">#{sIdx + 1}</span>
                   <input
                     className={field}
                     value={section.title}
@@ -428,33 +428,33 @@ const CurriculumEditModal = ({ course, onClose, notify }) => {
                   </button>
                 </div>
 
-                <div className="pl-3 border-l-2 border-slate-200 space-y-3">
+                <div className="pl-3 border-l-2 border-line space-y-3">
                   {section.materials.map((mat, mIdx) => (
-                    <div key={mIdx} className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col sm:flex-row gap-2">
+                    <div key={mIdx} className="bg-surface border border-line rounded-lg p-3 flex flex-col sm:flex-row gap-2">
                       <select
                         value={mat.type}
                         onChange={(e) => setMaterial(sIdx, mIdx, "type", e.target.value)}
-                        className="p-2 border border-slate-300 rounded text-sm sm:w-28 shrink-0"
+                        className="p-2 border border-line rounded text-sm sm:w-28 shrink-0"
                       >
                         <option value="video">Video</option>
                         <option value="note">Study Note</option>
                       </select>
                       <input
-                        className="p-2 border border-slate-300 rounded text-sm sm:w-1/3"
+                        className="p-2 border border-line rounded text-sm sm:w-1/3"
                         value={mat.title}
                         placeholder="Lesson title"
                         onChange={(e) => setMaterial(sIdx, mIdx, "title", e.target.value)}
                       />
                       {mat.type === "video" ? (
                         <input
-                          className="p-2 border border-slate-300 rounded text-sm flex-1"
+                          className="p-2 border border-line rounded text-sm flex-1"
                           value={mat.content}
                           placeholder="https://youtube.com/..."
                           onChange={(e) => setMaterial(sIdx, mIdx, "content", e.target.value)}
                         />
                       ) : (
                         <textarea
-                          className="p-2 border border-slate-300 rounded text-sm flex-1"
+                          className="p-2 border border-line rounded text-sm flex-1"
                           value={mat.content}
                           rows={2}
                           placeholder="Study notes…"
@@ -482,15 +482,15 @@ const CurriculumEditModal = ({ course, onClose, notify }) => {
 
             <button
               onClick={addSection}
-              className="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-lg hover:bg-slate-200 text-sm"
+              className="px-4 py-2.5 bg-surface-2 text-ink font-bold rounded-lg hover:bg-surface-2 text-sm"
             >
               + Add section
             </button>
           </div>
         )}
 
-        <div className="flex justify-end gap-3 mt-6 sticky bottom-0 bg-white pt-4">
-          <button onClick={onClose} className="px-5 py-2.5 font-bold text-slate-500 hover:text-brand">Cancel</button>
+        <div className="flex justify-end gap-3 mt-6 sticky bottom-0 bg-surface pt-4">
+          <button onClick={onClose} className="px-5 py-2.5 font-bold text-ink-muted hover:text-ink">Cancel</button>
           <button
             onClick={save}
             disabled={saving || loading}
@@ -560,27 +560,27 @@ const CoursesTab = ({ notify }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by title or category…"
-          className="flex-1 p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-accent text-brand"
+          className="flex-1 p-3 bg-surface border border-line rounded-xl outline-none focus:ring-2 focus:ring-accent text-ink"
         />
-        <button className="px-5 bg-brand text-white font-bold rounded-xl hover:bg-slate-800">Search</button>
+        <button className="px-5 bg-brand text-white font-bold rounded-xl hover:bg-brand-2">Search</button>
       </form>
 
       {loading ? (
-        <p className="text-slate-400">Loading courses…</p>
+        <p className="text-ink-faint">Loading courses…</p>
       ) : courses.length === 0 ? (
-        <p className="text-slate-400">No courses found.</p>
+        <p className="text-ink-faint">No courses found.</p>
       ) : (
         <div className="space-y-3">
           {courses.map((c) => (
-            <div key={c.course_id} className="bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div key={c.course_id} className="bg-surface border border-line rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="font-bold text-brand truncate">{c.title}</h3>
-                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${statusStyle[c.status] || "bg-slate-100 text-slate-500"}`}>
+                  <h3 className="font-bold text-ink truncate">{c.title}</h3>
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${statusStyle[c.status] || "bg-surface-2 text-ink-muted"}`}>
                     {c.status.replace("_", " ")}
                   </span>
                 </div>
-                <p className="text-sm text-slate-400 mt-0.5">
+                <p className="text-sm text-ink-faint mt-0.5">
                   {c.category || "General"} · {c.instructor_name || "Unknown instructor"} ·{" "}
                   {Number(c.price_etb) > 0 ? `${c.price_etb} ETB` : "Free"} · {c.enrollments_count} enrolled
                 </p>
@@ -599,7 +599,7 @@ const CoursesTab = ({ notify }) => {
                   <button
                     onClick={() => setStatus(c.course_id, "archived")}
                     disabled={busyId === c.course_id}
-                    className="text-sm font-bold text-slate-500 hover:bg-slate-100 px-3 py-1.5 rounded-lg"
+                    className="text-sm font-bold text-ink-muted hover:bg-surface-2 px-3 py-1.5 rounded-lg"
                   >
                     Archive
                   </button>
@@ -612,7 +612,7 @@ const CoursesTab = ({ notify }) => {
                 </button>
                 <button
                   onClick={() => setEditingCurriculum(c)}
-                  className="text-sm font-bold text-brand hover:bg-slate-100 px-3 py-1.5 rounded-lg"
+                  className="text-sm font-bold text-ink hover:bg-surface-2 px-3 py-1.5 rounded-lg"
                 >
                   Curriculum
                 </button>
@@ -672,7 +672,7 @@ const AdminDashboard = ({ onLogout }) => {
             <span className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center font-extrabold">A</span>
             <span className="font-extrabold tracking-tight">SkillAddis Admin</span>
           </div>
-          <button onClick={onLogout} className="text-sm font-bold text-slate-300 hover:text-white">Log out</button>
+          <button onClick={onLogout} className="text-sm font-bold text-ink-faint hover:text-white">Log out</button>
         </div>
         <div className="max-w-6xl mx-auto px-6 flex gap-1">
           {tabs.map((t) => (
@@ -680,7 +680,7 @@ const AdminDashboard = ({ onLogout }) => {
               key={t.key}
               onClick={() => setTab(t.key)}
               className={`px-4 py-3 text-sm font-bold border-b-2 transition-colors ${
-                tab === t.key ? "border-accent text-white" : "border-transparent text-slate-400 hover:text-white"
+                tab === t.key ? "border-accent text-white" : "border-transparent text-ink-faint hover:text-white"
               }`}
             >
               {t.label}
@@ -693,7 +693,7 @@ const AdminDashboard = ({ onLogout }) => {
         {tab === "overview" && (
           <div className="space-y-8">
             <div>
-              <h2 className="text-lg font-extrabold text-brand mb-3">Users</h2>
+              <h2 className="text-lg font-extrabold text-ink mb-3">Users</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <Stat label="Total users" value={stats?.users.total ?? "…"} tone="accent" />
                 <Stat label="Students" value={stats?.users.students ?? "…"} />
@@ -702,7 +702,7 @@ const AdminDashboard = ({ onLogout }) => {
               </div>
             </div>
             <div>
-              <h2 className="text-lg font-extrabold text-brand mb-3">Courses</h2>
+              <h2 className="text-lg font-extrabold text-ink mb-3">Courses</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <Stat label="Total courses" value={stats?.courses.total ?? "…"} tone="accent" />
                 <Stat label="Approved" value={stats?.courses.approved ?? "…"} />

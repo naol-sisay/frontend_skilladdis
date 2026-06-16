@@ -145,7 +145,7 @@ const CoursePlayer = () => {
     });
 
   const Sidebar = (
-    <div className="h-full bg-gradient-to-b from-accent-softer to-white flex flex-col scroll-slim overflow-y-auto">
+    <div className="h-full bg-gradient-to-b from-accent-soft via-accent-softer to-white flex flex-col scroll-slim overflow-y-auto">
       <div className="p-6 border-b border-accent-soft">
         <h2 className="text-lg font-extrabold text-brand">Course Content</h2>
         <p className="text-sm text-slate-400 mt-1 line-clamp-2">{course?.title}</p>
@@ -223,7 +223,7 @@ const CoursePlayer = () => {
   return (
     <div className="min-h-screen bg-canvas flex flex-col">
       {/* Top bar */}
-      <header className="sticky top-0 z-30 bg-white border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 h-16 shrink-0">
+      <header className="sticky top-0 z-30 bg-white border-b border-accent-soft flex items-center justify-between px-4 sm:px-6 h-16 shrink-0">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-slate-500 hover:text-brand font-semibold transition-colors"
@@ -260,7 +260,7 @@ const CoursePlayer = () => {
 
       <div className="flex-1 lg:flex min-h-0">
         {/* Desktop sidebar */}
-        <aside className="hidden lg:block w-80 shrink-0 border-r border-slate-100 bg-white h-[calc(100vh-4rem)] sticky top-16 overflow-hidden">
+        <aside className="hidden lg:block w-80 shrink-0 border-r border-accent-soft bg-white h-[calc(100vh-4rem)] sticky top-16 overflow-hidden">
           {Sidebar}
         </aside>
 

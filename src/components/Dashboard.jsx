@@ -171,7 +171,7 @@ const InstructorDashboard = ({ name, stats, photo }) => {
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             Instructor dashboard
           </span>
-          <h1 className="text-5xl font-extrabold text-brand leading-tight">Welcome back, {name}</h1>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-brand leading-tight break-words">Welcome back, {name}</h1>
           <p className="mt-3 text-slate-500 max-w-md">
             Manage your course content, pricing, lesson structure, and student-facing details from one place.
           </p>

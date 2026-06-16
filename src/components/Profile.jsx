@@ -146,7 +146,7 @@ const Profile = () => {
               type="button"
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
-              className="mt-5 w-full flex items-center justify-center gap-2 bg-accent text-white py-3 rounded-xl font-bold hover:bg-accent-strong transition-colors disabled:opacity-60"
+              className="mt-5 w-full flex items-center justify-center gap-2 bg-accent text-white py-3 rounded-xl font-bold glow-accent hover:bg-accent-strong transition-colors disabled:opacity-60"
             >
               {uploading ? (
                 <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -213,7 +213,7 @@ const Profile = () => {
           </div>
 
           <div className="mt-7 flex justify-end">
-            <button type="submit" disabled={saving} className="bg-accent text-white px-8 py-3.5 rounded-xl font-bold hover:bg-accent-strong transition-colors shadow-md disabled:opacity-60">
+            <button type="submit" disabled={saving} className="bg-accent text-white px-8 py-3.5 rounded-xl font-bold glow-accent hover:bg-accent-strong transition-colors disabled:opacity-60">
               {saving ? "Saving…" : "Save changes"}
             </button>
           </div>

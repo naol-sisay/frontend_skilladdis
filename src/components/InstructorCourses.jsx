@@ -62,7 +62,7 @@ const InstructorCourses = () => {
         </div>
         <button
           onClick={() => navigate("/create-course")}
-          className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-xl font-bold shadow-md shadow-blue-900/10 hover:bg-accent-strong transition-colors"
+          className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-xl font-bold glow-accent hover:bg-accent-strong transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
           Create course
@@ -92,7 +92,7 @@ const InstructorCourses = () => {
               </div>
               <p className="text-xl font-bold text-brand mb-1">No published courses yet</p>
               <p className="text-slate-400 mb-6">Create your first course and it will appear here.</p>
-              <button onClick={() => navigate("/create-course")} className="bg-accent text-white px-7 py-3 rounded-xl font-bold hover:bg-accent-strong transition-colors">Create course</button>
+              <button onClick={() => navigate("/create-course")} className="bg-accent text-white px-7 py-3 rounded-xl font-bold glow-accent hover:bg-accent-strong transition-colors">Create course</button>
             </div>
           ) : (
             <div className="space-y-3">

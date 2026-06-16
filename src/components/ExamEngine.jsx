@@ -84,7 +84,7 @@ const ExamEngine = () => {
                     <p className="text-green-600 font-bold mb-6">Congratulations! You passed the course.</p>
                     <button 
                         onClick={() => navigate(`/certificate/${certificateId}`)}
-                        className="w-full bg-accent text-white py-3 rounded-lg font-bold shadow-md hover:bg-accent-strong transition"
+                        className="w-full bg-accent text-white py-3 rounded-lg font-bold glow-accent hover:bg-accent-strong transition"
                     >
                         View Certificate
                     </button>
@@ -184,7 +184,7 @@ const ExamEngine = () => {
                 <button 
                     onClick={() => setCurrentIdx(prev => prev + 1)}
                     disabled={!userAnswers[currentQuestion.question_id]}
-                    className="bg-accent text-white px-8 py-3 rounded-lg font-bold shadow-md hover:bg-accent-strong disabled:opacity-50"
+                    className="bg-accent text-white px-8 py-3 rounded-lg font-bold glow-accent hover:bg-accent-strong disabled:opacity-50"
                 >
                     Next &rarr;
                 </button>

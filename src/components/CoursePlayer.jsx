@@ -201,7 +201,7 @@ const CoursePlayer = () => {
                 {isLastLesson ? (
                   <button
                     onClick={() => navigate(`/exam/${courseId}`)}
-                    className="bg-accent text-white px-6 sm:px-8 py-3 rounded-xl font-bold shadow-md hover:bg-accent-strong transition"
+                    className="bg-accent text-white px-6 sm:px-8 py-3 rounded-xl font-bold glow-accent hover:bg-accent-strong transition"
                   >
                     Take Final Exam
                   </button>

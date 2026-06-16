@@ -479,7 +479,7 @@ const CreateCourse = () => {
             <button
               type="submit"
               disabled={status.loading}
-              className="w-full bg-accent text-white py-4 rounded-lg font-bold hover:bg-accent-strong disabled:opacity-50 transition shadow-md"
+              className="w-full bg-accent text-white py-4 rounded-lg font-bold glow-accent hover:bg-accent-strong disabled:opacity-50 transition"
             >
               {status.loading ? "Saving..." : "+ Add Question to Exam"}
             </button>

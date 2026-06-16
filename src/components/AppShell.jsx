@@ -106,7 +106,7 @@ const AppShell = () => {
             </Link>
             <button
               onClick={logout}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-50 text-red-600 font-bold hover:bg-red-100 transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-600 text-white font-bold glow-danger hover:bg-red-700 active:scale-[0.99] transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -117,7 +117,7 @@ const AppShell = () => {
         ) : (
           <div className="space-y-2">
             <Link to="/login" className="block w-full text-center py-3 rounded-xl border border-slate-200 font-bold text-brand hover:bg-slate-50">Log in</Link>
-            <Link to="/register" className="block w-full text-center py-3 rounded-xl bg-accent text-white font-bold hover:bg-accent-strong">Sign up</Link>
+            <Link to="/register" className="block w-full text-center py-3 rounded-xl bg-accent text-white font-bold glow-accent hover:bg-accent-strong">Sign up</Link>
           </div>
         )}
       </div>
@@ -140,9 +140,20 @@ const AppShell = () => {
             <span className="font-extrabold text-brand">SkillAddis</span>
           </Link>
           {auth.authed ? (
-            <Link to="/profile" aria-label="Profile">
-              <Avatar name={auth.name} src={photo} size={32} />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link to="/profile" aria-label="Profile">
+                <Avatar name={auth.name} src={photo} size={32} />
+              </Link>
+              <button
+                onClick={logout}
+                aria-label="Log out"
+                className="flex items-center justify-center w-9 h-9 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            </div>
           ) : (
             <Link to="/login" className="text-sm font-bold text-accent">Log in</Link>
           )}

@@ -17,7 +17,7 @@
   --color-accent-dark: #1736b8;
   --color-accent-soft: #e7edff; /* light blue — chips, active nav, icon bg */
   --color-accent-softer: #f1f5ff;
-  --color-canvas: #f5f6fa; /* page background (cool off-white) */
+  --color-canvas: #e9edf8; /* page background (cool, lightly blue-tinted) */
 
   /* Typography */
   --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
@@ -521,8 +521,8 @@
   /* ===== Welcome hero — device with a logo card that pulls out ===== */
   .welcome-scene {
     position: relative;
-    margin: 0 auto 2.5rem;
-    width: min(92vw, 34rem);
+    margin: 0 auto 2.75rem;
+    width: min(88vw, 30rem);
   }
 
   .welcome-screen {
@@ -568,31 +568,31 @@
     filter: blur(10px);
   }
 
+  /* Floating corner cards — flat, sitting on the top corners like the reference */
   .welcome-note {
     position: absolute;
     z-index: 3;
-    width: 9rem;
-    padding: 0.85rem 0.95rem;
-    border-radius: 1.1rem;
+    width: 8.5rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 1rem;
     background: #fff;
-    border: 1px solid rgba(45, 91, 255, 0.16);
+    border: 1px solid rgba(45, 91, 255, 0.14);
     box-shadow:
-      0 22px 44px -22px rgba(15, 23, 42, 0.5),
-      0 6px 16px -10px rgba(45, 91, 255, 0.4);
+      0 24px 46px -24px rgba(15, 23, 42, 0.5),
+      0 6px 16px -10px rgba(45, 91, 255, 0.38);
     animation: welcome-float 6.8s cubic-bezier(0.37, 0, 0.18, 1) infinite;
   }
 
   .welcome-note--left {
-    left: 0.75rem;
-    top: -1.3rem;
-    transform: rotate(-6deg);
+    left: -1rem;
+    top: -1.5rem;
+    transform: rotate(-2deg);
   }
 
   .welcome-note--right {
-    right: 0.75rem;
-    top: -0.4rem;
-    background: linear-gradient(180deg, #f6f8ff, #ffffff);
-    transform: rotate(5deg);
+    right: -1rem;
+    top: -0.5rem;
+    transform: rotate(2deg);
     animation-delay: 0.7s;
   }
 

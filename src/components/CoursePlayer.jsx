@@ -145,7 +145,7 @@ const CoursePlayer = () => {
     });
 
   const Sidebar = (
-    <div className="h-full bg-gradient-to-b from-accent-soft via-accent-softer to-white flex flex-col scroll-slim overflow-y-auto">
+    <div className="h-full bg-gradient-to-b from-[#bcccff] via-accent-soft to-accent-softer flex flex-col scroll-slim overflow-y-auto">
       <div className="p-6 border-b border-accent-soft">
         <h2 className="text-lg font-extrabold text-brand">Course Content</h2>
         <p className="text-sm text-slate-400 mt-1 line-clamp-2">{course?.title}</p>

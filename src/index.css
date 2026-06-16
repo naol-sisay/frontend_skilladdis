@@ -141,6 +141,12 @@
   100% { transform: translate(-50%, -14px) scale(1); opacity: 1; }
 }
 
+/* Glass sheen sweep across the welcome logo card */
+@keyframes welcome-sheen {
+  0%        { transform: translateX(-130%) skewX(-18deg); }
+  55%, 100% { transform: translateX(160%) skewX(-18deg); }
+}
+
 /* Classroom loader — expanding rings + indeterminate bar */
 @keyframes classroom-ring {
   0%   { transform: scale(0.6); opacity: 0.7; }
@@ -523,9 +529,13 @@
     position: relative;
     height: 20rem;
     border-radius: 2rem;
-    background: linear-gradient(180deg, #ffffff, #eef1fb);
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    box-shadow: 0 40px 80px -42px rgba(15, 23, 42, 0.45);
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.92), rgba(238, 241, 251, 0.74));
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 50px 90px -46px rgba(15, 23, 42, 0.5),
+      0 26px 52px -34px rgba(45, 91, 255, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
   }
 
   .welcome-screen::before {
@@ -533,12 +543,12 @@
     position: absolute;
     left: 50%;
     top: 44%;
-    width: 17rem;
-    height: 17rem;
+    width: 18rem;
+    height: 18rem;
     transform: translate(-50%, -50%);
     border-radius: 9999px;
-    background: radial-gradient(circle, rgba(45, 91, 255, 0.18), rgba(45, 91, 255, 0.04) 55%, transparent 72%);
-    filter: blur(8px);
+    background: radial-gradient(circle, rgba(45, 91, 255, 0.24), rgba(45, 91, 255, 0.05) 55%, transparent 72%);
+    filter: blur(10px);
   }
 
   .welcome-note {
@@ -593,13 +603,36 @@
     place-items: center;
     width: 9.5rem;
     height: 11rem;
+    overflow: hidden;
     border-radius: 1.6rem;
-    background: #ffffff;
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    box-shadow: 0 30px 55px -30px rgba(15, 23, 42, 0.5);
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(244, 247, 255, 0.84));
+    border: 1px solid rgba(255, 255, 255, 0.92);
+    box-shadow:
+      0 40px 70px -34px rgba(15, 23, 42, 0.55),
+      0 18px 40px -26px rgba(45, 91, 255, 0.48),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
     transform: translate(-50%, -14px);
     will-change: transform;
     animation: welcome-pull 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Diagonal sheen that periodically sweeps the card */
+  .welcome-logo-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 55%;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.65) 50%,
+      transparent 100%
+    );
+    transform: translateX(-130%) skewX(-18deg);
+    animation: welcome-sheen 4.8s ease-in-out 1.2s infinite;
   }
 
   .welcome-dock {

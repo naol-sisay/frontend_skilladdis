@@ -145,18 +145,18 @@ const CoursePlayer = () => {
     });
 
   const Sidebar = (
-    <div className="h-full bg-white flex flex-col scroll-slim overflow-y-auto">
-      <div className="p-6 border-b border-slate-100">
+    <div className="h-full bg-gradient-to-b from-accent-softer to-white flex flex-col scroll-slim overflow-y-auto">
+      <div className="p-6 border-b border-accent-soft">
         <h2 className="text-lg font-extrabold text-brand">Course Content</h2>
         <p className="text-sm text-slate-400 mt-1 line-clamp-2">{course?.title}</p>
 
         {/* progress card */}
-        <div className="mt-4 rounded-2xl border border-slate-100 bg-accent-softer p-4">
+        <div className="mt-4 rounded-2xl border border-accent-soft bg-white shadow-sm p-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-bold text-brand">Your progress</span>
             <span className="text-sm font-semibold text-slate-500">{currentIndex + 1} of {total} lessons</span>
           </div>
-          <div className="mt-3 h-2 bg-white rounded-full overflow-hidden">
+          <div className="mt-3 h-2 bg-accent-soft rounded-full overflow-hidden">
             <div className="h-full bg-accent rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
           <div className="mt-2 flex items-center justify-between">
@@ -171,10 +171,10 @@ const CoursePlayer = () => {
         {syllabus.map((section, si) => {
           const open = openSections.has(section.section_id);
           return (
-            <div key={section.section_id} className="rounded-2xl border border-slate-100 overflow-hidden bg-white">
+            <div key={section.section_id} className="rounded-2xl border border-accent-soft overflow-hidden bg-white shadow-sm shadow-accent/5">
               <button
                 onClick={() => toggleSection(section.section_id)}
-                className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-slate-50 transition-colors"
+                className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-accent-softer transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <span className="w-7 h-7 shrink-0 rounded-lg bg-accent-soft text-accent flex items-center justify-center text-xs font-extrabold">
@@ -196,7 +196,7 @@ const CoursePlayer = () => {
                         key={mat.material_id}
                         onClick={() => pickMaterial(mat, section.section_id)}
                         className={`w-full text-left px-4 py-3 flex items-start gap-3 border-l-[3px] transition-colors ${
-                          isActive ? "border-accent bg-accent-soft" : "border-transparent hover:bg-slate-50"
+                          isActive ? "border-accent bg-accent-soft" : "border-transparent hover:bg-accent-softer"
                         }`}
                       >
                         <span className={`mt-0.5 shrink-0 ${isActive ? "text-accent" : "text-slate-400"}`}>

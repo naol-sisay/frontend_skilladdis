@@ -39,6 +39,10 @@ const CourseCatalog = () => {
   return (
     <div className="max-w-7xl mx-auto w-full px-6 py-12 mb-10">
       <div className="text-center mb-8">
+        <span className="inline-flex items-center gap-1.5 mb-3 text-xs font-bold uppercase tracking-wider text-accent">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+          Course catalog
+        </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-brand tracking-tight">
           Explore Courses
         </h1>
@@ -72,7 +76,7 @@ const CourseCatalog = () => {
           )}
           <button
             type="submit"
-            className="bg-brand text-white px-6 sm:px-8 py-4 font-bold hover:bg-slate-800 transition tracking-wide self-stretch"
+            className="bg-accent text-white px-6 sm:px-8 py-4 font-bold hover:bg-accent-strong transition tracking-wide self-stretch"
           >
             Search
           </button>

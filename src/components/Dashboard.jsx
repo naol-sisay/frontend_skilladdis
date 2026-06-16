@@ -86,7 +86,11 @@ const StudentDashboard = ({ name, stats, photo }) => {
     <div className="p-6 sm:p-10 max-w-6xl mx-auto w-full">
       {/* header */}
       <div className="grid lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-2xl p-8">
+        <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-white via-white to-accent-softer border border-slate-100 rounded-2xl p-8">
+          <span className="inline-flex items-center gap-1.5 mb-3 text-xs font-bold uppercase tracking-wider text-accent">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            Student dashboard
+          </span>
           <h1 className="text-5xl font-extrabold text-brand">Welcome</h1>
           <p className="mt-3 text-slate-500 max-w-md">
             Review enrolled courses, course status, and available catalog options.
@@ -162,7 +166,11 @@ const InstructorDashboard = ({ name, stats, photo }) => {
   return (
     <div className="p-6 sm:p-10 max-w-6xl mx-auto w-full">
       <div className="grid lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-2xl p-8">
+        <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-white via-white to-accent-softer border border-slate-100 rounded-2xl p-8">
+          <span className="inline-flex items-center gap-1.5 mb-3 text-xs font-bold uppercase tracking-wider text-accent">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            Instructor dashboard
+          </span>
           <h1 className="text-5xl font-extrabold text-brand leading-tight">Welcome back, {name}</h1>
           <p className="mt-3 text-slate-500 max-w-md">
             Manage your course content, pricing, lesson structure, and student-facing details from one place.

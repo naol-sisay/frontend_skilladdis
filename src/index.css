@@ -574,7 +574,7 @@
 
   .welcome-screen {
     position: relative;
-    height: 20rem;
+    height: 19rem;
     border-radius: 2rem;
     /* Cooler, bluer surface so the device reads as its own panel on the canvas */
     background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(225, 231, 248, 0.82));
@@ -615,12 +615,18 @@
     filter: blur(10px);
   }
 
-  /* Floating corner cards — flat, sitting on the top corners like the reference */
+  /* Floating corner cards — wide landscape cards perched on the top corners,
+     tilted on a diagonal, like the reference. */
   .welcome-note {
     position: absolute;
     z-index: 3;
-    width: 8.5rem;
-    padding: 0.8rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 11rem;
+    height: 4.25rem;
+    padding: 0 1rem;
     border-radius: 1rem;
     background: #fff;
     border: 1px solid rgba(45, 91, 255, 0.14);
@@ -631,44 +637,43 @@
   }
 
   .welcome-note--left {
-    left: -1rem;
-    top: -1.5rem;
-    transform: rotate(-2deg);
+    left: -0.5rem;
+    top: -1.8rem;
+    transform: rotate(-7deg);
   }
 
   .welcome-note--right {
-    right: -1rem;
-    top: -0.5rem;
-    transform: rotate(2deg);
+    right: -0.5rem;
+    top: -0.4rem;
+    transform: rotate(6deg);
     animation-delay: 0.7s;
   }
 
   .welcome-note__bar {
     display: block;
-    height: 0.55rem;
-    width: 3rem;
+    height: 0.62rem;
+    width: 55%;
     border-radius: 9999px;
     background: var(--color-accent);
   }
 
   .welcome-note__line {
     display: block;
-    height: 0.5rem;
-    width: 100%;
-    margin-top: 0.5rem;
+    height: 0.52rem;
+    width: 82%;
     border-radius: 9999px;
-    background: rgba(148, 163, 184, 0.3);
+    background: rgba(148, 163, 184, 0.28);
   }
 
   .welcome-logo-card {
     position: absolute;
     left: 50%;
-    top: 2.6rem;
+    top: 5rem;
     z-index: 2;
     display: grid;
     place-items: center;
-    width: 9.5rem;
-    height: 11rem;
+    width: 10.5rem;
+    height: 10.25rem;
     overflow: hidden;
     border-radius: 1.6rem;
     background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(244, 247, 255, 0.84));
@@ -704,10 +709,10 @@
   .welcome-dock {
     position: absolute;
     left: 50%;
-    bottom: 2.2rem;
+    bottom: 2.7rem;
     z-index: 1;
-    width: 14rem;
-    height: 3.1rem;
+    width: 15rem;
+    height: 3.4rem;
     transform: translateX(-50%);
     border-radius: 1rem;
     background: linear-gradient(180deg, #171d2e, #0e1320);
@@ -717,7 +722,7 @@
   .welcome-dock__slot {
     position: absolute;
     left: 50%;
-    top: 0.85rem;
+    top: 0.9rem;
     width: 7rem;
     height: 0.5rem;
     transform: translateX(-50%);
@@ -727,27 +732,24 @@
 
   .welcome-progress {
     position: relative;
-    margin: 1.6rem auto 0;
-    width: 18rem;
-    max-width: 82%;
-    height: 0.7rem;
+    margin: 1rem auto 0;
+    width: 23rem;
+    max-width: 84%;
+    height: 1rem;
     overflow: hidden;
     border-radius: 9999px;
     background: rgba(45, 91, 255, 0.16);
     box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.12);
   }
 
-  /* Bold, mostly-filled bar — the premium "loading" tell */
+  /* Full bold gradient bar — matches the reference's solid progress bar */
   .welcome-progress::before {
     content: "";
     position: absolute;
     inset: 0;
-    width: 72%;
     border-radius: inherit;
-    background: linear-gradient(90deg, rgba(45, 91, 255, 0.85), rgba(45, 91, 255, 1) 60%, rgba(125, 211, 252, 0.95));
-    box-shadow: 0 0 16px -2px rgba(45, 91, 255, 0.6);
-    animation: welcome-fill 4.2s cubic-bezier(0.37, 0, 0.18, 1) infinite;
-    transform-origin: left center;
+    background: linear-gradient(90deg, rgba(30, 69, 230, 1), rgba(45, 91, 255, 1) 55%, rgba(125, 211, 252, 0.95));
+    box-shadow: 0 0 18px -2px rgba(45, 91, 255, 0.65);
   }
 
   /* Sheen sweeping over the fill */
@@ -818,7 +820,7 @@
     background-size: 48px 48px;
   }
 
-  /* Welcome hero — scale the live device down so nothing overflows on phones */
+  /* Welcome hero — scale the live device down (same layout) so it fits phones */
   .welcome-scene {
     width: min(90vw, 22rem);
     margin-bottom: 2rem;
@@ -826,43 +828,44 @@
   }
 
   .welcome-screen {
-    height: 15rem;
+    height: 15.5rem;
     border-radius: 1.6rem;
   }
 
   .welcome-note {
-    width: 6.75rem;
-    padding: 0.65rem 0.75rem;
+    width: 8.5rem;
+    height: 3.4rem;
+    padding: 0 0.8rem;
     border-radius: 0.9rem;
   }
 
   .welcome-note--left {
-    left: 0.4rem;
-    top: -0.9rem;
-    transform: rotate(-5deg);
+    left: -0.3rem;
+    top: -1.4rem;
+    transform: rotate(-7deg);
   }
 
   .welcome-note--right {
-    right: 0.4rem;
-    top: -0.2rem;
-    transform: rotate(4deg);
+    right: -0.3rem;
+    top: -0.3rem;
+    transform: rotate(6deg);
   }
 
   .welcome-logo-card {
-    top: 1.9rem;
-    width: 7.75rem;
-    height: 8.75rem;
+    top: 3.9rem;
+    width: 8rem;
+    height: 7.75rem;
     border-radius: 1.3rem;
   }
 
   .welcome-dock {
-    width: 11rem;
-    height: 2.6rem;
-    bottom: 1.8rem;
+    width: 11.5rem;
+    height: 2.8rem;
+    bottom: 2rem;
   }
 
   .welcome-progress {
-    margin-top: 1.25rem;
+    margin-top: 0.9rem;
   }
 }
 

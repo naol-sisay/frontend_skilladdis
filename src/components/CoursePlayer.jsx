@@ -319,17 +319,6 @@ const CoursePlayer = () => {
                   </article>
                 )}
 
-                {/* overview card */}
-                {course?.description && (
-                  <div className="mt-6 bg-surface rounded-2xl border border-line p-6 sm:p-7">
-                    <div className="flex gap-2 border-b border-line pb-3 mb-4">
-                      <span className="px-4 py-1.5 rounded-lg bg-accent text-white text-sm font-bold">Overview</span>
-                    </div>
-                    <h3 className="font-bold text-ink mb-2">About this course</h3>
-                    <p className="text-ink-muted leading-7 whitespace-pre-wrap">{course.description}</p>
-                  </div>
-                )}
-
                 {/* nav footer */}
                 <div className="mt-6 flex items-center justify-between gap-4 bg-surface rounded-2xl border border-line p-4 sm:p-5">
                   <button

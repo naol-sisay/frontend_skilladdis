@@ -27,6 +27,15 @@ const statusStyle = {
   archived: "bg-surface-2 text-ink-muted",
 };
 
+const getYoutubeThumbnail = (url) => {
+  if (!url || typeof url !== "string") return "";
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11
+    ? `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`
+    : "";
+};
+
 /* ------------------------------- Login ------------------------------- */
 const AdminLogin = ({ onAuthed }) => {
   const [creds, setCreds] = useState({ email: "", password: "" });
@@ -262,9 +271,24 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
     scope: course.scope || "",
     status: course.status || "pending_approval",
     description: course.description || "",
+    video_url: course.video_url || "",
+    thumbnail_url: course.thumbnail_url || "",
   });
   const [saving, setSaving] = useState(false);
   const field = "w-full p-3 bg-canvas border border-line rounded-xl outline-none focus:ring-2 focus:ring-accent text-ink";
+
+  const setField = (key, value) => {
+    setForm((prev) => {
+      const next = { ...prev, [key]: value };
+      if (key === "video_url") {
+        const suggestedThumb = getYoutubeThumbnail(value);
+        if (suggestedThumb && (!prev.thumbnail_url || prev.thumbnail_url === getYoutubeThumbnail(prev.video_url))) {
+          next.thumbnail_url = suggestedThumb;
+        }
+      }
+      return next;
+    });
+  };
 
   const save = async () => {
     setSaving(true);
@@ -287,33 +311,71 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-bold text-ink mb-1.5">Title</label>
-            <input className={field} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+            <input className={field} value={form.title} onChange={(e) => setField("title", e.target.value)} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-bold text-ink mb-1.5">Category</label>
-              <input className={field} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
+              <input className={field} value={form.category} onChange={(e) => setField("category", e.target.value)} />
             </div>
             <div>
               <label className="block text-sm font-bold text-ink mb-1.5">Price (ETB)</label>
-              <input type="number" min="0" className={field} value={form.price_etb} onChange={(e) => setForm({ ...form, price_etb: e.target.value })} />
+              <input type="number" min="0" className={field} value={form.price_etb} onChange={(e) => setField("price_etb", e.target.value)} />
             </div>
           </div>
           <div>
             <label className="block text-sm font-bold text-ink mb-1.5">Scope / Level</label>
-            <input className={field} value={form.scope} onChange={(e) => setForm({ ...form, scope: e.target.value })} />
+            <input className={field} value={form.scope} onChange={(e) => setField("scope", e.target.value)} />
           </div>
           <div>
             <label className="block text-sm font-bold text-ink mb-1.5">Status</label>
-            <select className={field} value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
+            <select className={field} value={form.status} onChange={(e) => setField("status", e.target.value)}>
               {STATUSES.map((s) => (
                 <option key={s} value={s}>{s.replace("_", " ")}</option>
               ))}
             </select>
           </div>
           <div>
+            <label className="block text-sm font-bold text-ink mb-1.5">Primary YouTube Video</label>
+            <input
+              type="url"
+              className={field}
+              value={form.video_url}
+              placeholder="https://youtube.com/watch?v=..."
+              onChange={(e) => setField("video_url", e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-ink mb-1.5">Cover Image URL</label>
+            <input
+              type="url"
+              className={field}
+              value={form.thumbnail_url}
+              placeholder="https://example.com/cover.jpg"
+              onChange={(e) => setField("thumbnail_url", e.target.value)}
+            />
+            <p className="text-xs text-ink-faint mt-2">
+              When you paste a YouTube link above, the cover image will auto-fill from that video. You can still override it.
+            </p>
+          </div>
+          {form.thumbnail_url && (
+            <div>
+              <label className="block text-sm font-bold text-ink mb-1.5">Cover Preview</label>
+              <div className="rounded-2xl overflow-hidden border border-line bg-canvas">
+                <img
+                  src={form.thumbnail_url}
+                  alt={`${form.title || "Course"} cover preview`}
+                  className="w-full h-48 object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              </div>
+            </div>
+          )}
+          <div>
             <label className="block text-sm font-bold text-ink mb-1.5">Description</label>
-            <textarea rows={4} className={field} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+            <textarea rows={4} className={field} value={form.description} onChange={(e) => setField("description", e.target.value)} />
           </div>
         </div>
         <div className="flex justify-end gap-3 mt-6">

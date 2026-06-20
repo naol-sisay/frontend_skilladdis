@@ -2,44 +2,129 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const PUBLIC_ROUTES = ['/', '/login', '/register'];
+const LAST_ACTIVITY_KEY = 'skilladdis:last-activity-at';
+const LAST_ACTIVITY_TOKEN_KEY = 'skilladdis:last-activity-token';
+const ACTIVITY_EVENTS = ['mousemove', 'mousedown', 'keydown', 'scroll', 'click', 'touchstart'];
+const SESSION_CHECK_MS = 5000;
+
+const getLastActivity = () => {
+  const stored = Number(localStorage.getItem(LAST_ACTIVITY_KEY));
+  return Number.isFinite(stored) && stored > 0 ? stored : Date.now();
+};
 
 const useInactivityLogout = (timeoutMinutes = 15, pathname = '') => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Don't arm the timer on public pages, or when there's no session to expire.
-    if (PUBLIC_ROUTES.includes(pathname)) return;
-    if (!localStorage.getItem('token')) return;
+    if (PUBLIC_ROUTES.includes(pathname)) return undefined;
 
+    const timeoutMs = timeoutMinutes * 60 * 1000;
     let timeoutId;
+    let intervalId;
+
+    const getToken = () => localStorage.getItem('token');
+
+    const clearSession = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem(LAST_ACTIVITY_KEY);
+      localStorage.removeItem(LAST_ACTIVITY_TOKEN_KEY);
+    };
 
     const performLogout = () => {
-      // Obliterate the auth token
-      localStorage.removeItem('token');
-      localStorage.removeItem('user'); // Or whatever key you use for user data
-
-      // Force redirect to login
-      navigate('/login', { state: { message: 'Session expired due to inactivity.' } });
+      if (!getToken()) return;
+      clearSession();
+      navigate('/login', {
+        replace: true,
+        state: { message: 'Session expired due to inactivity.' },
+      });
     };
 
-    const resetTimer = () => {
+    const syncTrackedSession = () => {
+      const token = getToken();
+      if (!token) return false;
+
+      const trackedToken = localStorage.getItem(LAST_ACTIVITY_TOKEN_KEY);
+      if (trackedToken !== token) {
+        localStorage.setItem(LAST_ACTIVITY_TOKEN_KEY, token);
+        localStorage.setItem(LAST_ACTIVITY_KEY, String(Date.now()));
+      } else if (!localStorage.getItem(LAST_ACTIVITY_KEY)) {
+        localStorage.setItem(LAST_ACTIVITY_KEY, String(Date.now()));
+      }
+
+      return true;
+    };
+
+    const scheduleLogout = () => {
       clearTimeout(timeoutId);
-      // Convert minutes to milliseconds
-      timeoutId = setTimeout(performLogout, timeoutMinutes * 60 * 1000);
+      if (!syncTrackedSession()) return;
+
+      const elapsed = Date.now() - getLastActivity();
+      const remaining = timeoutMs - elapsed;
+
+      if (remaining <= 0) {
+        performLogout();
+        return;
+      }
+
+      timeoutId = setTimeout(performLogout, remaining);
     };
 
-    // Track every physical interaction with the page
-    const events = ['mousemove', 'keydown', 'scroll', 'click', 'touchstart'];
+    const markActivity = () => {
+      if (!syncTrackedSession()) return;
+      localStorage.setItem(LAST_ACTIVITY_KEY, String(Date.now()));
+      scheduleLogout();
+    };
 
-    events.forEach((event) => window.addEventListener(event, resetTimer, { passive: true }));
+    const validateSession = () => {
+      if (!getToken()) {
+        clearTimeout(timeoutId);
+        return;
+      }
 
-    // Initialize the timer on mount
-    resetTimer();
+      syncTrackedSession();
+      if (Date.now() - getLastActivity() >= timeoutMs) {
+        performLogout();
+        return;
+      }
 
-    // Cleanup listeners when the route changes or the component unmounts
+      scheduleLogout();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        validateSession();
+      }
+    };
+
+    const handleStorage = (event) => {
+      if (event.key === 'token' && !event.newValue) {
+        navigate('/login', { replace: true });
+        return;
+      }
+
+      if (event.key === LAST_ACTIVITY_KEY) {
+        validateSession();
+      }
+    };
+
+    ACTIVITY_EVENTS.forEach((event) =>
+      window.addEventListener(event, markActivity, { passive: true })
+    );
+    window.addEventListener('focus', validateSession);
+    window.addEventListener('storage', handleStorage);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    intervalId = window.setInterval(validateSession, SESSION_CHECK_MS);
+
+    validateSession();
+
     return () => {
-      events.forEach((event) => window.removeEventListener(event, resetTimer));
+      ACTIVITY_EVENTS.forEach((event) => window.removeEventListener(event, markActivity));
+      window.removeEventListener('focus', validateSession);
+      window.removeEventListener('storage', handleStorage);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearTimeout(timeoutId);
+      clearInterval(intervalId);
     };
   }, [navigate, timeoutMinutes, pathname]);
 };

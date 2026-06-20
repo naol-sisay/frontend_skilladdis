@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import api, { resolveAsset } from "../api/axios";
 import { getTheme, applyTheme } from "../theme";
@@ -55,17 +55,28 @@ const Profile = () => {
     navigate("/login");
   };
 
+  const hydrateProfile = useCallback((u) => {
+    setUser(u);
+    setForm({
+      full_name: u.full_name || "",
+      headline: u.headline || "",
+      phone: u.phone || "",
+      location: u.location || "",
+      bio: u.bio || "",
+    });
+  }, []);
+
+  const loadProfile = useCallback(async () => {
+    const r = await api.get("/auth/me");
+    const u = r.data.user;
+    hydrateProfile(u);
+    return u;
+  }, [hydrateProfile]);
+
   useEffect(() => {
     if (!localStorage.getItem("token")) return navigate("/login");
-    api.get("/auth/me").then((r) => {
-      const u = r.data.user;
-      setUser(u);
-      setForm({
-        full_name: u.full_name || "", headline: u.headline || "",
-        phone: u.phone || "", location: u.location || "", bio: u.bio || "",
-      });
-    }).catch(() => navigate("/login")).finally(() => setLoading(false));
-  }, [navigate]);
+    loadProfile().catch(() => navigate("/login")).finally(() => setLoading(false));
+  }, [loadProfile, navigate]);
 
   const save = async (e) => {
     e?.preventDefault();
@@ -73,11 +84,12 @@ const Profile = () => {
     setSaving(true);
     try {
       await api.put("/auth/profile", form);
-      setUser((u) => ({ ...u, ...form }));
+      const updated = await loadProfile();
       flash("success", "Profile saved.");
       window.dispatchEvent(new Event("profile-updated"));
-    } catch {
-      flash("error", "Could not save changes.");
+      return updated;
+    } catch (err) {
+      flash("error", err?.response?.data?.error || "Could not save changes.");
     } finally {
       setSaving(false);
     }
@@ -90,8 +102,8 @@ const Profile = () => {
     data.append("avatar", file);
     setUploading(true);
     try {
-      const r = await api.post("/auth/profile/avatar", data, { headers: { "Content-Type": "multipart/form-data" } });
-      setUser((u) => ({ ...u, profile_picture_url: r.data.profile_picture_url }));
+      await api.post("/auth/profile/avatar", data, { headers: { "Content-Type": "multipart/form-data" } });
+      await loadProfile();
       flash("success", "Photo updated.");
       window.dispatchEvent(new Event("profile-updated"));
     } catch (err) {

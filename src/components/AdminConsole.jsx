@@ -294,11 +294,14 @@ const CourseEditModal = ({ course, onClose, onSaved, notify }) => {
     setSaving(true);
     try {
       await api.put(`/admin/courses/${course.course_id}`, form);
-      onSaved({ ...course, ...form });
+      const refreshed = await api.get(`/admin/courses${course.title ? `?search=${encodeURIComponent(course.title)}` : ""}`);
+      const updatedCourse = (refreshed.data.courses || []).find((item) => item.course_id === course.course_id);
+      onSaved(updatedCourse || { ...course, ...form });
       notify("Course updated.");
       onClose();
     } catch (e) {
       notify(e?.response?.data?.error || "Could not save course.", true);
+    } finally {
       setSaving(false);
     }
   };
